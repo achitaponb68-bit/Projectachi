@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GamePlay7 extends AppCompatActivity {
@@ -19,13 +17,6 @@ public class GamePlay7 extends AppCompatActivity {
     // Logic Variables
     private int selectedSlotIndex = 0; // 0 = ช่องที่ 1, 1 = ช่องที่ 2, 2 = ช่องที่ 3
     private final String[] userAnswers = {"[ ช่องที่ 1 ]", "[ ช่องที่ 2 ]", "[ ช่องที่ 3 ]"};
-
-    // คำตอบที่ถูกต้องสำหรับโจทย์ SQL ข้อนี้
-    private final String[] correctAnswers = {
-            "AND",
-            "status",
-            "'active'"
-    };
 
     public GamePlay7() {
         // ต้องเป็น public constructor เพื่อไม่ให้แอป crash
@@ -111,27 +102,9 @@ public class GamePlay7 extends AppCompatActivity {
     // 1. ปุ่มตรวจคำตอบ (Check Answer)
     // ==========================================
     private void checkAnswers() {
-        // ให้ถือว่าถูกต้องเสมอและแสดง Dialog ทันที (ไม่ต้องตรวจสอบว่าใส่ครบหรือตอบถูกไหม)
-        boolean isCorrect = true;
-
-        // แสดง Dialog แจ้งผลลัพธ์
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if (isCorrect) {
-            builder.setTitle("🎉 ถูกต้องแล้ว!")
-                    .setMessage("คำสั่ง SQL ถูกต้อง ระบบตรวจสอบทั้งชื่อผู้ใช้และสถานะบัญชี active เรียบร้อย")
-                    .setCancelable(false)
-                    .setPositiveButton("ดูเฉลยละเอียด / ข้อถัดไป", (dialog, which) -> {
-                        Intent intent = new Intent(GamePlay7.this, SolutionDialog7.class);
-                        startActivity(intent);
-                    })
-                    .setNegativeButton("ปิด", null);
-        } else {
-            builder.setTitle("❌ ยังไม่ถูกต้อง")
-                    .setMessage("คำตอบยังไม่ถูกต้อง ลองทบทวนเงื่อนไขหรือลองใช้คำใบ้ดูนะครับ")
-                    .setPositiveButton("ลองใหม่", null)
-                    .setNeutralButton("ดูคำใบ้ 💡", (dialog, which) -> showHintDialog());
-        }
-        builder.create().show();
+        // เปลี่ยนหน้าไปที่ SolutionDialog7 ทันที
+        Intent intent = new Intent(GamePlay7.this, SolutionDialog7.class);
+        startActivity(intent);
     }
 
     // ==========================================
