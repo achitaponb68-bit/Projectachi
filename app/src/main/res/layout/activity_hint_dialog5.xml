@@ -1,78 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="24dp"
+    android:orientation="vertical"
     tools:context=".HintDialog5">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:cardBackgroundColor="#0D111A"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="12dp"
+        app:strokeColor="#38BDF8"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- หัวข้อคำใบ้ -->
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="#0A2540"
+                android:padding="2dp">
+
+                <View android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:background="#0B1A2A" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="💡"
+                    tools:ignore="HardcodedText"
+                    android:textSize="20sp" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.08"
+                android:text="CODIE QUEST // HINT MODULE"
+                tools:ignore="HardcodedText"
+                android:textColor="#38BDF8"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tvHintTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="💡 ตัวช่วยคำใบ้"
-                android:textColor="#212121"
-                android:textSize="22sp"
+                android:layout_marginTop="8dp"
+                android:text="💡 ตัวช่วยคำใบ้ (50 : 50)"
+                tools:ignore="HardcodedText"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- ข้อความอธิบายการตัดช้อยส์ 1 ข้อ -->
             <TextView
                 android:id="@+id/tvHintDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:lineSpacingExtra="4dp"
-                android:text="เมื่อกดใช้งาน ตัวช่วยนี้จะทำการตัดช้อยส์คำตอบที่ไม่ถูกต้องออกให้ทันที 1 ข้อ!"
-                android:textColor="#666666"
-                android:textSize="16sp" />
-
-            <!-- ปุ่มกดใช้งานส่งค่า RESULT_OK -->
-            <Button
-                android:id="@+id/btnUse5050"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="#FF9800"
-                android:paddingVertical="12dp"
-                android:text="ตัด 1 ตัวเลือกที่ไม่ถูกต้อง"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="หากใช้ตัวช่วยนี้ ระบบจะทำการตัดช้อยส์คำตอบที่\nผิดออกให้ทันที 1 ข้อ"
+                tools:ignore="HardcodedText"
+                android:textColor="#94A3B8"
+                android:textSize="13sp" />
 
-            <!-- ปุ่มปิดหน้าต่าง -->
+            <Button
+                android:id="@+id/btnUse5050"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#1E2B45"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="⚡ ใช้งานเพื่อตัดตัวเลือกที่ผิด"
+                tools:ignore="HardcodedText"
+                android:textAllCaps="false"
+                android:textColor="#E2E8F0"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                app:strokeColor="#38BDF8"
+                app:strokeWidth="1dp" />
+
             <Button
                 android:id="@+id/btnCloseHint"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="ยกเลิก / ปิด"
-                android:textColor="#757575"
-                android:textSize="15sp" />
+                tools:ignore="HardcodedText"
+                android:textAllCaps="false"
+                android:textColor="#64748B"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

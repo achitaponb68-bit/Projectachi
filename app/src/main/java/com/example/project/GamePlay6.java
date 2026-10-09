@@ -1,10 +1,11 @@
 package com.example.project;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GamePlay6 extends AppCompatActivity {
@@ -15,16 +16,7 @@ public class GamePlay6 extends AppCompatActivity {
     private Button btnOption1, btnOption2, btnOption3, btnOption4, btnOption5, btnOption6;
     private Button btnCheck, btnHint, btnNext;
 
-    // Logic Variables
-    private int selectedSlotIndex = 0; // 0 = ช่องที่ 1, 1 = ช่องที่ 2, 2 = ช่องที่ 3
-    private String[] userAnswers = {"[ ช่องที่ 1 ]", "[ ช่องที่ 2 ]", "[ ช่องที่ 3 ]"};
 
-    // คำตอบที่ถูกต้อง
-    private final String[] correctAnswers = {
-            "\"http://apache.org/xml/features/disallow-doctype-decl\"",
-            "false",
-            "false"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,43 +46,43 @@ public class GamePlay6 extends AppCompatActivity {
 
     private void setupListeners() {
         // ปุ่มย้อนกลับ
-        btnBackCategory.setOnClickListener(v -> finish());
-
-        // ปุ่มตัวเลือกคำตอบ
-        btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
-        btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
-        btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
-        btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
-        btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
-        btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
-
-        // ปุ่มตรวจคำตอบ
-        btnCheck.setOnClickListener(v -> checkAnswers());
-
-        // ปุ่มคำใบ้
-        btnHint.setOnClickListener(v -> showHint());
-
-        // ปุ่มข้อถัดไป
-        btnNext.setOnClickListener(v -> {
-            Toast.makeText(this, "กำลังไปยังข้อถัดไป...", Toast.LENGTH_SHORT).show();
-            // TODO: ใส่ Intent เพื่อเปิด Activity ถัดไป
-        });
-    }
-
-    // ฟังก์ชันเมื่อผู้ใช้เลือกคำตอบลงในช่องว่างปัจจุบัน
-    private void selectOption(String selectedValue) {
-        // เติม เครื่องหมายคำพูด ให้กรณีเป็น URL String
-        if (selectedValue.startsWith("http")) {
-            selectedValue = "\"" + selectedValue + "\"";
+        if (btnBackCategory != null) {
+            btnBackCategory.setOnClickListener(v -> finish());
         }
 
-        userAnswers[selectedSlotIndex] = selectedValue;
+        // ปุ่มตัวเลือกคำตอบ (ปิดการใช้งานตามความต้องการ "ยังไม่ควรใส่คำตอบได้")
+        if (btnOption1 != null) btnOption1.setOnClickListener(null);
+        if (btnOption2 != null) btnOption2.setOnClickListener(null);
+        if (btnOption3 != null) btnOption3.setOnClickListener(null);
+        if (btnOption4 != null) btnOption4.setOnClickListener(null);
+        if (btnOption5 != null) btnOption5.setOnClickListener(null);
+        if (btnOption6 != null) btnOption6.setOnClickListener(null);
 
-        // ขยับไปช่องถัดไปอัตโนมัติ (วนลูป 0 -> 1 -> 2 -> 0)
-        selectedSlotIndex = (selectedSlotIndex + 1) % 3;
+        // ปุ่มตรวจคำตอบ (เชื่อมกับ activity_solution_dialog6.xml โดยตรง)
+        if (btnCheck != null) {
+            btnCheck.setOnClickListener(v -> {
+                Intent intent = new Intent(GamePlay6.this, SolutionDialog6.class);
+                startActivity(intent);
+            });
+        }
 
-        updateCodeDisplay();
+        // ปุ่มคำใบ้
+        if (btnHint != null) {
+            btnHint.setOnClickListener(v -> showHintDialog());
+        }
+
+        // ปุ่มจบด่าน (เนื่องจากเป็นข้อ 3/3 ของ Java) ไปหน้าหลัก
+        if (btnNext != null) {
+            btnNext.setOnClickListener(v -> {
+                Intent intent = new Intent(GamePlay6.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish(); 
+            });
+        }
     }
+
+
 
     // ฟังก์ชันอัปเดตการแสดงผลโค้ด Java บน TextView
     private void updateCodeDisplay() {
@@ -99,35 +91,22 @@ public class GamePlay6 extends AppCompatActivity {
                         "public class SafeXmlParser {\n" +
                         "    public static void secureParser(DocumentBuilderFactory dbf) throws Exception {\n" +
                         "        // ป้องกัน XXE โดยปิดการทำงานที่ไม่ปลอดภัย\n\n" +
-                        "        dbf.setFeature(" + userAnswers[0] + ", true);\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-general-entities\", " + userAnswers[1] + ");\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", " + userAnswers[2] + ");\n" +
+                        "        dbf.setFeature( [ ช่องที่ 1 ] , true);\n\n" +
+                        "        dbf.setFeature(\"http://xml.org/sax/features/external-general-entities\", [ ช่องที่ 2 ] );\n\n" +
+                        "        dbf.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", [ ช่องที่ 3 ] );\n" +
                         "    }\n" +
                         "}";
 
-        tvQuestionCode.setText(codeTemplate);
-    }
-
-    // ฟังก์ชันตรวจคำตอบ
-    private void checkAnswers() {
-        boolean isCorrect = true;
-
-        for (int i = 0; i < 3; i++) {
-            if (!userAnswers[i].equals(correctAnswers[i])) {
-                isCorrect = false;
-                break;
-            }
-        }
-
-        if (isCorrect) {
-            Toast.makeText(this, "🎉 ถูกต้องแล้ว! ป้องกันช่องโหว่ XXE ได้สำเร็จ", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "❌ ยังไม่ถูกต้อง ลองใหม่อีกครั้งครับ", Toast.LENGTH_SHORT).show();
+        if (tvQuestionCode != null) {
+            tvQuestionCode.setText(codeTemplate);
         }
     }
+
+
 
     // ฟังก์ชันแสดงคำใบ้
-    private void showHint() {
-        Toast.makeText(this, "💡 คำใบ้: คุณต้องปิด (disallow) DOCTYPE และตั้งค่า Entities เป็น false เพื่อป้องกัน XXE", Toast.LENGTH_LONG).show();
+    private void showHintDialog() {
+        Intent intent = new Intent(GamePlay6.this, HintDialog6.class);
+        startActivity(intent);
     }
 }

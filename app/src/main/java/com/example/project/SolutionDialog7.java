@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SolutionDialog7 extends AppCompatActivity {
 
-    private Button btnBackCategory;
-    private Button btnDone;
+    private Button btnBackMenu;
+    private Button btnNextQuestion;
     private TextView tvSolutionCode;
 
     @Override
@@ -23,21 +23,25 @@ public class SolutionDialog7 extends AppCompatActivity {
     }
 
     private void initViews() {
-        btnBackCategory = findViewById(R.id.btnBackCategory);
-        btnDone = findViewById(R.id.btnDone);
+        btnBackMenu = findViewById(R.id.btnBackMenu);
+        btnNextQuestion = findViewById(R.id.btnNextQuestion);
         tvSolutionCode = findViewById(R.id.tvSolutionCode);
     }
 
     private void setupListeners() {
         // ปุ่มย้อนกลับ
-        btnBackCategory.setOnClickListener(v -> finish());
+        if (btnBackMenu != null) {
+            btnBackMenu.setOnClickListener(v -> finish());
+        }
 
         // ปุ่มเข้าใจแล้ว / ไปข้อถัดไป (GamePlay8)
-        btnDone.setOnClickListener(v -> {
-            Intent intent = new Intent(SolutionDialog7.this, GamePlay8.class);
-            startActivity(intent);
-            finish();
-        });
+        if (btnNextQuestion != null) {
+            btnNextQuestion.setOnClickListener(v -> {
+                Intent intent = new Intent(SolutionDialog7.this, GamePlay8.class);
+                startActivity(intent);
+                finish();
+            });
+        }
     }
 
     private void displaySolutionCode() {

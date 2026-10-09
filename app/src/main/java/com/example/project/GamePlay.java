@@ -13,9 +13,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class GamePlay extends AppCompatActivity {
 
-    private TextView tvHeader, tvQuestionNumber, tvQuestionCode;
-    private Button btnOption1, btnOption2, btnOption3, btnOption4, btnOption5, btnOption6 ;
-    private Button btnHint, btnNext;
+    private Button btnBackCategory;
+    private TextView tvQuestionNumber, tvQuestionCode;
+    private Button btnOption1, btnOption2, btnOption3, btnOption4, btnOption5, btnOption6;
+    private Button btnCheck, btnHint, btnNext;
 
 
     @Override
@@ -33,7 +34,7 @@ public class GamePlay extends AppCompatActivity {
         String difficulty = getIntent().getStringExtra("difficulty");
 
         // ผูก View
-        tvHeader = findViewById(R.id.btnBackCategory);
+        btnBackCategory = findViewById(R.id.btnBackCategory);
         tvQuestionNumber = findViewById(R.id.tvQuestionNumber);
         tvQuestionCode = findViewById(R.id.tvQuestionCode);
 
@@ -44,23 +45,31 @@ public class GamePlay extends AppCompatActivity {
         btnOption5 = findViewById(R.id.btnOption5);
         btnOption6 = findViewById(R.id.btnOption6);
 
+        btnCheck = findViewById(R.id.btnCheck);
         btnHint = findViewById(R.id.btnHint);
         btnNext = findViewById(R.id.btnNext);
 
-        // คำใบ้ข้อ 6 (HintDialog6)
-        btnHint.setOnClickListener(v -> {
-            Intent intent = new Intent(GamePlay.this, HintDialog6.class);
+        // ปุ่มย้อนกลับ
+        btnBackCategory.setOnClickListener(v -> finish());
+
+        // ปุ่มตรวจคำตอบ (เปิด SolutionDialog1)
+        btnCheck.setOnClickListener(v -> {
+            Intent intent = new Intent(GamePlay.this, SolutionDialog1.class);
             startActivity(intent);
         });
 
-        // ไปข้อถัดไป (GamePlay7)
+        // ปุ่มคำใบ้ (แสดง HintDialog1)
+        btnHint.setOnClickListener(v -> {
+            HintDialog1 hintDialog = new HintDialog1(GamePlay.this, null);
+            hintDialog.show();
+        });
+
+        // ปุ่มไปข้อถัดไป (เปิด GamePlay2)
         btnNext.setOnClickListener(v -> {
             Intent intent = new Intent(GamePlay.this, GamePlay2.class);
             intent.putExtra("category", category);
             intent.putExtra("difficulty", difficulty);
             startActivity(intent);
         });
-
-
     }
 }

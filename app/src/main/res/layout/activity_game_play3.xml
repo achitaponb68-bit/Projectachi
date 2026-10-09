@@ -434,7 +434,7 @@
                         app:strokeColor="#334155"
                         app:strokeWidth="1dp" />
 
-                    <!-- ปุ่มข้อถัดไป -->
+                    <!-- ปุ่มข้อถัดไป (เปลี่ยนเป็นจบด่าน) -->
                     <Button
                         android:id="@+id/btnNext"
                         android:layout_width="0dp"
@@ -445,7 +445,7 @@
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
                         android:paddingHorizontal="4dp"
-                        android:text="ข้อถัดไป ➔"
+                        android:text="จบด่าน ➔"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"

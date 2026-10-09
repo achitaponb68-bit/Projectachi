@@ -79,13 +79,13 @@ public class GamePlay3 extends AppCompatActivity {
             });
         }
 
-        // 6. ปุ่มไปข้อถัดไป (เปิด GamePlay4)
+        // 6. ปุ่มไปข้อถัดไป (สำหรับข้อ Hard เปลี่ยนเป็น จบด่าน แล้วไปหน้าหลัก)
         if (btnNext != null) {
             btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(GamePlay3.this, GamePlay4.class);
-                intent.putExtra("category", category);
-                intent.putExtra("difficulty", difficulty);
+                Intent intent = new Intent(GamePlay3.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                finish();
             });
         }
     }

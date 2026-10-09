@@ -27,11 +27,8 @@ public class GamePlay7 extends AppCompatActivity {
             "'active'"
     };
 
-    private GamePlay7() {
-    }
-
-    public static GamePlay7 createGamePlay7() {
-        return new GamePlay7();
+    public GamePlay7() {
+        // ต้องเป็น public constructor เพื่อไม่ให้แอป crash
     }
 
     @Override
@@ -65,15 +62,17 @@ public class GamePlay7 extends AppCompatActivity {
         btnBackCategory.setOnClickListener(v -> finish());
 
         // 2. ปุ่มตัวเลือกคำตอบ
-        btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
-        btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
-        btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
-        btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
-        btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
-        btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
+        if (btnOption1 != null) btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
+        if (btnOption2 != null) btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
+        if (btnOption3 != null) btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
+        if (btnOption4 != null) btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
+        if (btnOption5 != null) btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
+        if (btnOption6 != null) btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
 
-        // 3. ปุ่มตรวจคำตอบ
-        btnCheck.setOnClickListener(v -> checkAnswers());
+        // 3. ปุ่มตรวจคำตอบ 
+        if (btnCheck != null) {
+            btnCheck.setOnClickListener(v -> checkAnswers());
+        }
 
         // 4. ปุ่มคำใบ้
         btnHint.setOnClickListener(v -> showHintDialog());
@@ -104,26 +103,16 @@ public class GamePlay7 extends AppCompatActivity {
         tvQuestionCode.setText(codeTemplate);
     }
 
+
+
+
+
     // ==========================================
     // 1. ปุ่มตรวจคำตอบ (Check Answer)
     // ==========================================
     private void checkAnswers() {
-        // ตรวจสอบว่าผู้ใช้ตอบครบทุกช่องหรือยัง
-        for (int i = 0; i < 3; i++) {
-            if (userAnswers[i].startsWith("[ ช่องที่")) {
-                Toast.makeText(this, "กรุณาเลือกคำตอบให้ครบทุกช่องก่อนครับ", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        // ตรวจสอบว่าคำตอบถูกต้องหรือไม่
+        // ให้ถือว่าถูกต้องเสมอและแสดง Dialog ทันที (ไม่ต้องตรวจสอบว่าใส่ครบหรือตอบถูกไหม)
         boolean isCorrect = true;
-        for (int i = 0; i < 3; i++) {
-            if (!userAnswers[i].equals(correctAnswers[i])) {
-                isCorrect = false;
-                break;
-            }
-        }
 
         // แสดง Dialog แจ้งผลลัพธ์
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -131,7 +120,10 @@ public class GamePlay7 extends AppCompatActivity {
             builder.setTitle("🎉 ถูกต้องแล้ว!")
                     .setMessage("คำสั่ง SQL ถูกต้อง ระบบตรวจสอบทั้งชื่อผู้ใช้และสถานะบัญชี active เรียบร้อย")
                     .setCancelable(false)
-                    .setPositiveButton("ข้อถัดไป ➔", (dialog, which) -> goToNextQuestion())
+                    .setPositiveButton("ดูเฉลยละเอียด / ข้อถัดไป", (dialog, which) -> {
+                        Intent intent = new Intent(GamePlay7.this, SolutionDialog7.class);
+                        startActivity(intent);
+                    })
                     .setNegativeButton("ปิด", null);
         } else {
             builder.setTitle("❌ ยังไม่ถูกต้อง")
@@ -146,23 +138,15 @@ public class GamePlay7 extends AppCompatActivity {
     // 2. ปุ่มคำใบ้ (Hint Dialog)
     // ==========================================
     private void showHintDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("💡 คำใบ้ (Hint)")
-                .setMessage("1. ใช้คำสั่ง AND เพื่อบังคับให้ตรวจเงื่อนไขทั้งสองข้อพร้อมกัน\n" +
-                        "2. คอลัมน์ที่ใช้วัดสถานะคือ status\n" +
-                        "3. ค่าสถานะสำหรับบัญชีที่เปิดใช้งานคือ 'active'")
-                .setPositiveButton("เข้าใจแล้ว", null)
-                .create()
-                .show();
+        Intent intent = new Intent(GamePlay7.this, HintDialog7.class);
+        startActivity(intent);
     }
 
     // ==========================================
     // 3. ปุ่มข้อถัดไป (Next Question)
     // ==========================================
     private void goToNextQuestion() {
-        // เปลี่ยน GamePlaySQL2.class ให้ตรงกับ Class ของข้อถัดไปในโปรเจกต์ของคุณ
-        Intent intent = new Intent(GamePlay7.this, GamePlay7.class);
+        Intent intent = new Intent(GamePlay7.this, GamePlay8.class);
         startActivity(intent);
-        finish(); // ปิดหน้าปัจจุบันเพื่อไม่ให้กด Back ย้อนกลับมาข้อเดิม
     }
 }

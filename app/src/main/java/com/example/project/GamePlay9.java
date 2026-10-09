@@ -60,16 +60,21 @@ public class GamePlay9 extends AppCompatActivity {
         // ปุ่มย้อนกลับ
         btnBackCategory.setOnClickListener(v -> finish());
 
-        // ปุ่มตัวเลือกคำตอบ
-        btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
-        btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
-        btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
-        btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
-        btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
-        btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
+        // ปุ่มตัวเลือกคำตอบ (ปิดการใช้งานสำหรับหน้า SQL)
+        if (btnOption1 != null) btnOption1.setOnClickListener(null);
+        if (btnOption2 != null) btnOption2.setOnClickListener(null);
+        if (btnOption3 != null) btnOption3.setOnClickListener(null);
+        if (btnOption4 != null) btnOption4.setOnClickListener(null);
+        if (btnOption5 != null) btnOption5.setOnClickListener(null);
+        if (btnOption6 != null) btnOption6.setOnClickListener(null);
 
-        // ปุ่มตรวจคำตอบ
-        btnCheck.setOnClickListener(v -> checkAnswers());
+        // ปุ่มตรวจคำตอบ (เชื่อมตรงไปหน้าเฉลย)
+        if (btnCheck != null) {
+            btnCheck.setOnClickListener(v -> {
+                Intent intent = new Intent(GamePlay9.this, SolutionDialog9.class);
+                startActivity(intent);
+            });
+        }
 
         // ปุ่มคำใบ้
         btnHint.setOnClickListener(v -> showHintDialog());
@@ -78,74 +83,33 @@ public class GamePlay9 extends AppCompatActivity {
         btnNext.setOnClickListener(v -> goToNextQuestion());
     }
 
-    private void selectOption(String selectedValue) {
-        userAnswers[selectedSlotIndex] = selectedValue;
 
-        // ขยับไปช่องถัดไปอัตโนมัติ (0 -> 1 -> 2 -> 0)
-        selectedSlotIndex = (selectedSlotIndex + 1) % 3;
-
-        updateCodeDisplay();
-    }
 
     private void updateCodeDisplay() {
         String codeTemplate =
                 "-- ซ่อนเลขบัตรประชาชนให้แสดงเฉพาะ หลักท้าย\n" +
                         "ALTER TABLE customer_info\n\n" +
-                        "MODIFY COLUMN national_id " + userAnswers[0] + "\n\n" +
-                        "WITH (FUNCTION = " + userAnswers[1] + ");\n\n\n" +
+                        "MODIFY COLUMN national_id [ ช่องที่ 1 ]\n\n" +
+                        "WITH (FUNCTION = [ ช่องที่ 2 ]);\n\n\n" +
                         "-- กำหนดสิทธิ์ตาม Least Privilege ให้ดูเฉพาะข้อมูลที่จำเป็น\n" +
-                        userAnswers[2] + " SELECT ON customer_info TO 'app_read_role';";
+                        "[ ช่องที่ 3 ] SELECT ON customer_info TO 'app_read_role';";
 
         tvQuestionCode.setText(codeTemplate);
     }
 
-    // ตรวจคำตอบ
-    private void checkAnswers() {
-        for (int i = 0; i < 3; i++) {
-            if (userAnswers[i].startsWith("[ ช่องที่")) {
-                Toast.makeText(this, "กรุณาเลือกคำตอบให้ครบทุกช่องก่อนครับ", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
 
-        boolean isCorrect = true;
-        for (int i = 0; i < 3; i++) {
-            if (!userAnswers[i].equals(correctAnswers[i])) {
-                isCorrect = false;
-                break;
-            }
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if (isCorrect) {
-            builder.setTitle("🏆 ยินดีด้วย! คุณผ่านหมวด SQL แล้ว")
-                    .setMessage("คำสั่งถูกต้องครบถ้วน!\n- MASKED WITH (FUNCTION = partial(...)) ช่วยซ่อนข้อมูลความลับ\n- GRANT ใช้กำหนดสิทธิ์เท่าที่จำเป็น (Least Privilege)")
-                    .setCancelable(false)
-                    .setPositiveButton("กลับสู่หน้าหลัก", (dialog, which) -> goToNextQuestion())
-                    .setNegativeButton("ปิด", null);
-        } else {
-            builder.setTitle("❌ ยังไม่ถูกต้อง")
-                    .setMessage("คำตอบยังไม่ถูกต้อง ลองตรวจสอบไวยากรณ์ Masking และคีย์เวิร์ดการให้สิทธิ์ดูนะครับ")
-                    .setPositiveButton("ลองใหม่", null)
-                    .setNeutralButton("ดูคำใบ้ 💡", (dialog, which) -> showHintDialog());
-        }
-        builder.create().show();
-    }
 
     // แสดงคำใบ้
     private void showHintDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("💡 คำใบ้ (Hint)")
-                .setMessage("1. คำสั่งสำหรับทำ Dynamic Data Masking จะใช้คีย์เวิร์ด MASKED\n" +
-                        "2. ฟังก์ชันที่ใช้แสดงผลบางส่วนและซ่อนตัวอักษรด้านหน้าคือ partial(prefix, padding, suffix)\n" +
-                        "3. คำสั่งมอบสิทธิ์ในการเข้าถึงข้อมูลตารางให้กับ Role คือ GRANT")
-                .setPositiveButton("เข้าใจแล้ว", null)
-                .create()
-                .show();
+        Intent intent = new Intent(GamePlay9.this, HintDialog9.class);
+        startActivity(intent);
     }
 
     // จบด่าน / กลับหน้าเลือกหมวดหมู่
     private void goToNextQuestion() {
-        finish(); // ปิดหน้าจบด่านเพื่อกลับสู่หน้าเมนูหลัก
+        Intent intent = new Intent(GamePlay9.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish(); 
     }
 }

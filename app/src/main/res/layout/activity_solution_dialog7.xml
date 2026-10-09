@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ภาษา Java — ระดับง่าย (Easy)"
+                    android:text="ภาษา SQL — ระดับง่าย (Easy)"
                     android:textColor="#94A3B8"
                     android:textSize="12sp" />
             </LinearLayout>

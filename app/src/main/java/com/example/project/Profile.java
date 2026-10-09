@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Profile extends AppCompatActivity {
 
-    private TextView tvPlayerName, tvTotalScore, tvCompletedStages;
+    private TextView tvPlayerName, tvCompletedStages;
     private Button btnBack;
 
     @Override
@@ -29,16 +29,12 @@ public class Profile extends AppCompatActivity {
 
         // ผูก View กับ ID ใน XML (activity_profile.xml)
         tvPlayerName = findViewById(R.id.tvPlayerName);
-        tvTotalScore = findViewById(R.id.tvTotalScore);
         tvCompletedStages = findViewById(R.id.tvCompletedStages);
         btnBack = findViewById(R.id.button14);
 
         // กำหนดข้อมูลแสดงผลบนหน้าโปรไฟล์
         if (tvPlayerName != null) {
             tvPlayerName.setText("ผู้เล่น Codie");
-        }
-        if (tvTotalScore != null) {
-            tvTotalScore.setText("คะแนนสะสม: 1,250 คะแนน");
         }
         if (tvCompletedStages != null) {
             tvCompletedStages.setText("ด่านที่ทำสำเร็จ: 8 ด่าน");

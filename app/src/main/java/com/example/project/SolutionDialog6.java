@@ -18,7 +18,6 @@ public class SolutionDialog6 extends AppCompatActivity {
 
         initViews();
         setupListeners();
-        displaySolutionCode();
     }
 
     private void initViews() {
@@ -28,25 +27,15 @@ public class SolutionDialog6 extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // ปุ่มย้อนกลับ
-        btnBackCategory.setOnClickListener(v -> finish());
+        // ปุ่มกลับเมนู (ปิดหน้าปัจจุบันและหน้า GamePlay ก่อนหน้าได้ถ้าใช้ Intent flag,
+        // สำหรับที่นี่ใช้ finish() เพื่อปิดหน้านี้)
+        if (btnBackCategory != null) {
+            btnBackCategory.setOnClickListener(v -> finish());
+        }
 
         // ปุ่มเข้าใจแล้ว / ปิดหน้าเฉลย
-        btnDone.setOnClickListener(v -> finish());
-    }
-
-    private void displaySolutionCode() {
-        String fullSolutionCode =
-                "import javax.xml.parsers.DocumentBuilderFactory;\n\n" +
-                        "public class SafeXmlParser {\n" +
-                        "    public static void secureParser(DocumentBuilderFactory dbf) throws Exception {\n" +
-                        "        // ป้องกัน XXE โดยปิดการทำงานที่ไม่ปลอดภัย\n\n" +
-                        "        dbf.setFeature(\"http://apache.org/xml/features/disallow-doctype-decl\", true);\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-general-entities\", false);\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", false);\n" +
-                        "    }\n" +
-                        "}";
-
-        tvSolutionCode.setText(fullSolutionCode);
+        if (btnDone != null) {
+            btnDone.setOnClickListener(v -> finish());
+        }
     }
 }
