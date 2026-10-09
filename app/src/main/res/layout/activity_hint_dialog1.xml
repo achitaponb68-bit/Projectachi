@@ -1,10 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HintDialog1">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="24dp"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#0D111A"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="12dp"
+        app:strokeColor="#38BDF8"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- กรอบไอคอนหลอดไฟด้านบน -->
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="#0A2540"
+                android:padding="2dp">
+
+                <View android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:background="#0B1A2A" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="💡"
+                    android:textSize="20sp" />
+            </FrameLayout>
+
+            <!-- Tag หัวข้อ Module -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.08"
+                android:text="CODIE QUEST // HINT MODULE"
+                android:textColor="#38BDF8"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <!-- ชื่อตัวช่วย -->
+            <TextView
+                android:id="@+id/tvHintTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="💡 ตัวช่วยคำใบ้ (50 : 50)"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- คำอธิบายการทำงาน -->
+            <TextView
+                android:id="@+id/tvHintDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="หากใช้ตัวช่วยนี้ ระบบจะทำการตัดช้อยส์คำตอบที่\nผิดออกให้ทันที 1 ข้อ"
+                android:textColor="#94A3B8"
+                android:textSize="13sp" />
+
+            <!-- ปุ่มเปิดใช้งานตัวช่วย -->
+            <Button
+                android:id="@+id/btnUseHint"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#1E2B45"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="⚡ ใช้งานเพื่อตัดตัวเลือกที่ผิด"
+                android:textAllCaps="false"
+                android:textColor="#E2E8F0"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                app:strokeColor="#38BDF8"
+                app:strokeWidth="1dp" />
+
+            <!-- ปุ่มยกเลิก / ปิด -->
+            <TextView
+                android:id="@+id/tvCloseDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                android:text="ยกเลิก / ปิด"
+                android:textColor="#64748B"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

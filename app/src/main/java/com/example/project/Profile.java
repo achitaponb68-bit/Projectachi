@@ -1,6 +1,8 @@
 package com.example.project;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,15 +12,41 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Profile extends AppCompatActivity {
 
+    private TextView tvPlayerName, tvTotalScore, tvCompletedStages;
+    private Button btnBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // ผูก View กับ ID ใน XML (activity_profile.xml)
+        tvPlayerName = findViewById(R.id.tvPlayerName);
+        tvTotalScore = findViewById(R.id.tvTotalScore);
+        tvCompletedStages = findViewById(R.id.tvCompletedStages);
+        btnBack = findViewById(R.id.button14);
+
+        // กำหนดข้อมูลแสดงผลบนหน้าโปรไฟล์
+        if (tvPlayerName != null) {
+            tvPlayerName.setText("ผู้เล่น Codie");
+        }
+        if (tvTotalScore != null) {
+            tvTotalScore.setText("คะแนนสะสม: 1,250 คะแนน");
+        }
+        if (tvCompletedStages != null) {
+            tvCompletedStages.setText("ด่านที่ทำสำเร็จ: 8 ด่าน");
+        }
+
+        // ปุ่มกลับไปหน้าเมนูหลัก
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
     }
 }

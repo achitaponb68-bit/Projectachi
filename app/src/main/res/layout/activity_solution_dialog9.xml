@@ -1,10 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0B0E17"
+    android:fillViewport="true"
     tools:context=".SolutionDialog9">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Top Header Navigation Bar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- ปุ่มย้อนกลับ -->
+            <Button
+                android:id="@+id/btnBackCategory"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="0dp"
+                android:text="← เลือกหมวดหมู่"
+                android:textColor="#38BDF8"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:cornerRadius="18dp"
+                app:strokeColor="#1E293B"
+                app:strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:text="CODIE QUEST"
+                android:textColor="#64748B"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- Main Solution Card Container -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#131127"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Language & Stage Badges Bar -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Pill Badge: SQL -->
+                    <TextView
+                        android:id="@+id/tvLanguageBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="#0D3338"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:text="SQL"
+                        android:textColor="#22D3EE"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <!-- Stage & Question Number Badges -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvStageNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:background="#1E293B"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="ด่านที่ 3"
+                            android:textColor="#E2E8F0"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvQuestionNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#1E293B"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="เฉลยข้อ 3/3"
+                            android:textColor="#4ADE80"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <!-- Title & Subtitle -->
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="SQL"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="ระดับยาก (Hard)"
+                    android:textColor="#94A3B8"
+                    android:textSize="13sp" />
+
+                <!-- Divider Line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="14dp"
+                    android:background="#1E293B" />
+
+                <!-- Question Prompt -->
+                <TextView
+                    android:id="@+id/tvQuestionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:text="โจทย์"
+                    android:textColor="#38BDF8"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvQuestionDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="3dp"
+                    android:text="เติมคำสั่งการกำหนดสิทธิ์ (Least Privilege) และเปิดใช้ระบบ Masking เพื่อซ่อนแบนข้อมูลประชาชน ป้องกันข้อมูลรั่วไหล (Data Exposure)"
+                    android:textColor="#E2E8F0"
+                    android:textSize="13sp" />
+
+                <!-- CODE EDITOR Section Header -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.05"
+                        android:text="CODE EDITOR (SOLUTION)"
+                        android:textColor="#4ADE80"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="monospace"
+                        android:text="main.c"
+                        android:textColor="#64748B"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+
+                <!-- Code Box Container -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    app:cardBackgroundColor="#090D16"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:id="@+id/tvSolutionCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:lineSpacingExtra="4dp"
+                            android:text="-- ซ่อนเลขบัตรประชาชนให้แสดงเฉพาะ  หลักท้าย\nALTER TABLE customer_info\n\nMODIFY COLUMN national_id MASKED\n\nWITH (FUNCTION = partial(0,&quot;XXXXXXXXX&quot;,4));\n\n\n-- กำหนดสิทธิ์ตาม Least Privilege ให้ดูเฉพาะข้อมูลที่จำเป็น\nGRANT SELECT ON customer_info TO 'app_read_role';"
+                            android:textColor="#38BDF8"
+                            android:textSize="12sp" />
+                    </ScrollView>
+                </androidx.cardview.widget.CardView>
+
+                <!-- คำอธิบายเฉลย -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="คำอธิบายเพิ่มเติม"
+                    android:textColor="#C084FC"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="4dp"
+                    android:text="1. MASKED: เปิดใช้งานการบดบังข้อมูล (Dynamic Data Masking) บนคอลัมน์สำคัญ\n2. partial(0, &quot;XXXXXXXXX&quot;, 4): กำหนดให้ปิดบังตัวอักษรด้านหน้าด้วยตัว X และแสดงผลเฉพาะ 4 หลักท้าย\n3. GRANT: มอบสิทธิ์การเข้าถึงแบบจำกัด (Least Privilege) ให้ Role อ่านได้อย่างเดียว"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+
+                <!-- Bottom Action Buttons Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnDone"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:backgroundTint="#A855F7"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="เข้าใจแล้ว / กลับสู่หน้าหลัก ➔"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="10dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

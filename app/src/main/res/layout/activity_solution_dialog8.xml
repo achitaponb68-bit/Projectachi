@@ -1,10 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SolutionDialog8">
+    android:background="#0B0E17"
+    android:fillViewport="true"
+    tools:context=".Solution8">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Top Header Navigation Bar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- ปุ่มย้อนกลับ -->
+            <Button
+                android:id="@+id/btnBackCategory"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="0dp"
+                android:text="← เลือกหมวดหมู่"
+                android:textColor="#38BDF8"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:cornerRadius="18dp"
+                app:strokeColor="#1E293B"
+                app:strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:text="CODIE QUEST"
+                android:textColor="#64748B"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- Main Solution Card Container -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#131127"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Language & Stage Badges Bar -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Pill Badge: SQL -->
+                    <TextView
+                        android:id="@+id/tvLanguageBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="#0D3338"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:text="SQL"
+                        android:textColor="#22D3EE"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <!-- Stage & Question Number Badges -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvStageNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:background="#1E293B"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="ด่านที่ 2"
+                            android:textColor="#E2E8F0"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvQuestionNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#1E293B"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="เฉลยข้อ 2/3"
+                            android:textColor="#4ADE80"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <!-- Title & Subtitle -->
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="SQL"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="เติมคำสั่ง SQL ให้ถูกต้อง"
+                    android:textColor="#94A3B8"
+                    android:textSize="13sp" />
+
+                <!-- Divider Line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="14dp"
+                    android:background="#1E293B" />
+
+                <!-- Question Prompt -->
+                <TextView
+                    android:id="@+id/tvQuestionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:text="โจทย์"
+                    android:textColor="#38BDF8"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvQuestionDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="3dp"
+                    android:text="เติมคำสั่งการใช้ Prepared Statement (Parameterized Query) เพื่อป้องกันการโจมตีประเภท SQL Injection ในขั้นตอนการตรวจสอบการเข้าสู่ระบบ"
+                    android:textColor="#E2E8F0"
+                    android:textSize="13sp" />
+
+                <!-- CODE EDITOR Section Header -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.05"
+                        android:text="CODE EDITOR (SOLUTION)"
+                        android:textColor="#4ADE80"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="monospace"
+                        android:text="main.c"
+                        android:textColor="#64748B"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+
+                <!-- Code Box Container -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    app:cardBackgroundColor="#090D16"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:id="@+id/tvSolutionCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:lineSpacingExtra="4dp"
+                            android:text="-- สร้างคำสั่งที่ปลอดภัยสำหรับการตรวจสอบการเข้าสู่ระบบ\nPREPARE login_stmt FROM\n\n'SELECT role, username FROM customer WHERE email = ? AND password_hash = ?';\n\n\n-- รับค่าที่ได้จากผู้ใช้มาเก็บไว้ในตัวแปร\nSET @user_email = 'user@example.com';\nSET @user_pass = 'hashed_pass_value';\n\n\n-- เรียกใช้คำสั่งโดยส่งค่าตัวแปรเข้าไป\nEXECUTE login_stmt USING @user_email, @user_pass;"
+                            android:textColor="#38BDF8"
+                            android:textSize="12sp" />
+                    </ScrollView>
+                </androidx.cardview.widget.CardView>
+
+                <!-- คำอธิบายเฉลย -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="คำอธิบายเพิ่มเติม"
+                    android:textColor="#C084FC"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="4dp"
+                    android:text="1. ? (Placeholder): ใช้ซ่อนค่าอินพุตจริงในโครงสร้าง SQL เพื่อป้องกันไม่ให้ผู้โจมตีฉีดคำสั่งแปลกปลอมเข้ามาได้\n2. EXECUTE ... USING: ส่งค่าจากตัวแปร @user_email และ @user_pass เข้าไปแทนที่เครื่องหมาย ? ตามลำดับอย่างปลอดภัย"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+
+                <!-- Bottom Action Buttons Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnDone"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:backgroundTint="#A855F7"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="เข้าใจแล้ว / ข้อถัดไป ➔"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="10dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

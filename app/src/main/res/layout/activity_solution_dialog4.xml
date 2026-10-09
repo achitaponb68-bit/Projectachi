@@ -1,10 +1,261 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?> <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0A0814"
+    android:fillViewport="true"
     tools:context=".SolutionDialog4">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Header Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Codie Quest"
+                    android:textColor="#38BDF8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ภาษา Java — ระดับง่าย (Easy)"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#1B2E28"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="✔ SOLUTION 4"
+                android:textColor="#4ADE80"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Title Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="— เฉลยโจทย์คำถาม"
+            android:textColor="#38BDF8"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Java Token Validator"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="เติมคำสั่งตรวจสอบความถูกต้องของ Token โดยต้องไม่เป็น null และมีความยาวตั้งแต่ 10 ตัวอักษรขึ้นไปเพื่อความปลอดภัย"
+            android:textColor="#94A3B8"
+            android:textSize="13sp" />
+
+        <!-- Complete Java Code Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#131127"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💻 โค้ดที่ถูกต้องสมบูรณ์"
+                    android:textColor="#818CF8"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Code Block -->
+                <TextView
+                    android:id="@+id/tvCodeSolution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#090710"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="4dp"
+                    android:padding="14dp"
+                    android:text="public class TokenValidator {\n    public static boolean validateToken(String token) {\n        if (token != null &amp;&amp; token.length() &gt;= 10) { // [ช่องที่ 1 &amp; 2]\n            return true; // [ช่องที่ 3]\n        }\n        return false;\n    }\n}"
+                    android:textColor="#38BDF8"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Explanations Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#131127"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💡 คำอธิบายเฉลยแต่ละช่อง"
+                    android:textColor="#FACC15"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <!-- Blank 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="#1C1A36"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ช่องที่ 1:  token != null"
+                        android:textColor="#4ADE80"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="ตรวจสอบว่าออบเจกต์ String token ไม่เป็น null ก่อนนำไปใช้งาน เพื่อป้องกัน Error ชนิด NullPointerException"
+                        android:textColor="#CBD5E1"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <!-- Blank 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#1C1A36"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ช่องที่ 2:  &amp;&amp;"
+                        android:textColor="#4ADE80"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="ใช้ตัวดำเนินการตรรกะ AND (&amp;&amp;) เพื่อให้ต้องผ่านทั้งสองเงื่อนไขพร้อมกัน (ต้องไม่เป็น null และมีความยาวตั้งแต่ 10 ตัวอักษรขึ้นไป)"
+                        android:textColor="#CBD5E1"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <!-- Blank 3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#1C1A36"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ช่องที่ 3:  true"
+                        android:textColor="#4ADE80"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="หากผ่านเงื่อนไขการตรวจสอบทั้งหมด ให้คืนค่า boolean เป็น true เพื่อยืนยันว่า Token มีความถูกต้อง"
+                        android:textColor="#CBD5E1"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Navigation Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnBackMenu"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:paddingVertical="12dp"
+                android:text="← กลับเมนู"
+                android:textColor="#FFFFFF"
+                app:strokeColor="#334155" />
+
+            <Button
+                android:id="@+id/btnNextQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#0EA5E9"
+                android:paddingVertical="12dp"
+                android:text="ข้อถัดไป ➔"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

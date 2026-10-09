@@ -7,4 +7,72 @@
     android:layout_height="match_parent"
     tools:context=".HintDialog8">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- หัวข้อคำใบ้ -->
+            <TextView
+                android:id="@+id/tvHintTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💡 ตัวช่วยคำใบ้"
+                android:textColor="#212121"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <!-- ข้อความอธิบายการตัดช้อยส์ 1 ข้อ -->
+            <TextView
+                android:id="@+id/tvHintDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="เมื่อกดใช้งาน ตัวช่วยนี้จะทำการตัดช้อยส์คำตอบที่ไม่ถูกต้องออกให้ทันที 1 ข้อ!"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <!-- ปุ่มกดใช้งานส่งค่า RESULT_OK -->
+            <Button
+                android:id="@+id/btnUse5050"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#FF9800"
+                android:paddingVertical="12dp"
+                android:text="ตัด 1 ตัวเลือกที่ไม่ถูกต้อง"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- ปุ่มปิดหน้าต่าง -->
+            <Button
+                android:id="@+id/btnCloseHint"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="ยกเลิก / ปิด"
+                android:textColor="#757575"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
