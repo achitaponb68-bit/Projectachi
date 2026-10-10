@@ -44,8 +44,9 @@ public class SolutionDialog3 extends AppCompatActivity {
 
         if (btnNextQuestion != null) {
             btnNextQuestion.setOnClickListener(v -> {
-                Toast.makeText(this, "จบด่านแล้ว! กำลังไปยังหน้าสรุปคะแนน...", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SolutionDialog3.this, Levelsummary.class);
+                Toast.makeText(this, "กำลังกลับสู่หน้าหลัก...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SolutionDialog3.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             });
