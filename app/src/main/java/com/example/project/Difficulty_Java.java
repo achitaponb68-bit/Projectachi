@@ -25,7 +25,6 @@ public class Difficulty_Java extends AppCompatActivity {
         initViews();
         setupListeners();
 
-        // ตั้งค่าการเลือกเริ่มต้นเป็น Easy
         selectDifficulty("Easy");
     }
 
@@ -43,7 +42,14 @@ public class Difficulty_Java extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        btnBack.setOnClickListener(v -> finish());
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                Intent intent = new Intent(Difficulty_Java.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
+        }
 
         btnEasy.setOnClickListener(v -> selectDifficulty("Easy"));
         btnMedium.setOnClickListener(v -> selectDifficulty("Medium"));

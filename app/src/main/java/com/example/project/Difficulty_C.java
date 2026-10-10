@@ -6,12 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Difficulty_C extends AppCompatActivity {
 
-    // ประกาศตัวแปรสำหรับองค์ประกอบใน UI
     private Button btnBack, btnStartGame;
     private LinearLayout btnEasy, btnMedium, btnHard;
     private TextView tvStatusEasy, tvStatusMedium, tvStatusHard;
@@ -27,7 +25,6 @@ public class Difficulty_C extends AppCompatActivity {
         initViews();
         setupListeners();
 
-        // 1. ตั้งค่าการเลือกเริ่มต้นเป็น Easy
         selectDifficulty("Easy");
     }
 
@@ -45,9 +42,15 @@ public class Difficulty_C extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        btnBack.setOnClickListener(v -> finish());
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                Intent intent = new Intent(Difficulty_C.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
+        }
 
-        // เมื่อกดเลือกลำดับด่านต่างๆ
         btnEasy.setOnClickListener(v -> selectDifficulty("Easy"));
         btnMedium.setOnClickListener(v -> selectDifficulty("Medium"));
         btnHard.setOnClickListener(v -> selectDifficulty("Hard"));
@@ -66,18 +69,13 @@ public class Difficulty_C extends AppCompatActivity {
         });
     }
 
-    /**
-     * ฟังก์ชันเปลี่ยนสถานะด่านที่เลือก
-     */
     private void selectDifficulty(String level) {
         selectedDifficulty = level;
 
-        // ซ่อนคำว่า "เลือกแล้ว" บนด่านทั้งหมดก่อน
         if (tvStatusEasy != null) tvStatusEasy.setVisibility(View.GONE);
         if (tvStatusMedium != null) tvStatusMedium.setVisibility(View.GONE);
         if (tvStatusHard != null) tvStatusHard.setVisibility(View.GONE);
 
-        // แสดงคำว่า "เลือกแล้ว" เฉพาะด่านที่เลือก + อัปเดตข้อความกล่องปุ่มด้านล่าง
         if ("Easy".equals(level)) {
             if (tvStatusEasy != null) tvStatusEasy.setVisibility(View.VISIBLE);
             if (tvSelectedDifficultyText != null) tvSelectedDifficultyText.setText("⚡ เลิอด่านง่ายแล้ว");

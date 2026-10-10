@@ -8,22 +8,29 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GamePlay6 extends AppCompatActivity {
 
-    // UI Components
     private Button btnBackCategory;
     private TextView tvQuestionCode;
     private Button btnOption1, btnOption2, btnOption3, btnOption4, btnOption5, btnOption6;
     private Button btnCheck, btnHint, btnNext;
 
+    private int selectedSlotIndex = 0;
+    private final String[] userAnswers = {"[ ช่องที่ 1 ]", "[ ช่องที่ 2 ]", "[ ช่องที่ 3 ]"};
 
+    private int hintCount = 0;
+    private final List<Button> wrongOptions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_play6); // อ้างอิงชื่อไฟล์ XML ของคุณ
+        setContentView(R.layout.activity_game_play6);
 
         initViews();
+        initWrongOptions();
         setupListeners();
         updateCodeDisplay();
     }
@@ -44,21 +51,50 @@ public class GamePlay6 extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
     }
 
-    private void setupListeners() {
-        // ปุ่มย้อนกลับ
-        if (btnBackCategory != null) {
-            btnBackCategory.setOnClickListener(v -> finish());
+    private void initWrongOptions() {
+        wrongOptions.clear();
+        wrongOptions.add(btnOption3);
+        wrongOptions.add(btnOption5);
+        wrongOptions.add(btnOption6);
+    }
+
+    private void useHint() {
+        if (hintCount >= 3 || wrongOptions.isEmpty()) {
+            Toast.makeText(this, "ใช้คำใบ้ครบ 3 ครั้งแล้ว (เหลือเฉพาะคำตอบที่ถูกต้อง)", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        // ปุ่มตัวเลือกคำตอบ (ปิดการใช้งานตามความต้องการ "ยังไม่ควรใส่คำตอบได้")
-        if (btnOption1 != null) btnOption1.setOnClickListener(null);
-        if (btnOption2 != null) btnOption2.setOnClickListener(null);
-        if (btnOption3 != null) btnOption3.setOnClickListener(null);
-        if (btnOption4 != null) btnOption4.setOnClickListener(null);
-        if (btnOption5 != null) btnOption5.setOnClickListener(null);
-        if (btnOption6 != null) btnOption6.setOnClickListener(null);
+        Button btnToRemove = wrongOptions.remove(0);
+        if (btnToRemove != null) {
+            btnToRemove.setEnabled(false);
+            btnToRemove.setAlpha(0.3f);
+        }
 
-        // ปุ่มตรวจคำตอบ (เชื่อมกับ activity_solution_dialog6.xml โดยตรง)
+        hintCount++;
+        Toast.makeText(this, "ตัดตัวเลือกที่ผิดออกแล้ว 1 ข้อ (ใช้คำใบ้ไป " + hintCount + "/3)", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setupListeners() {
+        if (btnBackCategory != null) {
+            btnBackCategory.setOnClickListener(v -> {
+                Intent intent = new Intent(GamePlay6.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
+        }
+
+        if (btnOption1 != null) btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
+        if (btnOption2 != null) btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
+        if (btnOption3 != null) btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
+        if (btnOption4 != null) btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
+        if (btnOption5 != null) btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
+        if (btnOption6 != null) btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
+
+        if (tvQuestionCode != null) {
+            tvQuestionCode.setOnClickListener(v -> resetAnswers());
+        }
+
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
                 Intent intent = new Intent(GamePlay6.this, SolutionDialog6.class);
@@ -66,34 +102,43 @@ public class GamePlay6 extends AppCompatActivity {
             });
         }
 
-        // ปุ่มคำใบ้
         if (btnHint != null) {
             btnHint.setOnClickListener(v -> showHintDialog());
         }
 
-        // ปุ่มจบด่าน (เนื่องจากเป็นข้อ 3/3 ของ Java) ไปหน้าหลัก
         if (btnNext != null) {
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(GamePlay6.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
-                finish(); 
+                finish();
             });
         }
     }
 
+    private void selectOption(String value) {
+        userAnswers[selectedSlotIndex] = value;
+        selectedSlotIndex = (selectedSlotIndex + 1) % 3;
+        updateCodeDisplay();
+    }
 
+    private void resetAnswers() {
+        userAnswers[0] = "[ ช่องที่ 1 ]";
+        userAnswers[1] = "[ ช่องที่ 2 ]";
+        userAnswers[2] = "[ ช่องที่ 3 ]";
+        selectedSlotIndex = 0;
+        updateCodeDisplay();
+    }
 
-    // ฟังก์ชันอัปเดตการแสดงผลโค้ด Java บน TextView
     private void updateCodeDisplay() {
         String codeTemplate =
                 "import javax.xml.parsers.DocumentBuilderFactory;\n\n" +
                         "public class SafeXmlParser {\n" +
                         "    public static void secureParser(DocumentBuilderFactory dbf) throws Exception {\n" +
                         "        // ป้องกัน XXE โดยปิดการทำงานที่ไม่ปลอดภัย\n\n" +
-                        "        dbf.setFeature( [ ช่องที่ 1 ] , true);\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-general-entities\", [ ช่องที่ 2 ] );\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", [ ช่องที่ 3 ] );\n" +
+                        "        dbf.setFeature( " + userAnswers[0] + " , true);\n\n" +
+                        "        dbf.setFeature(\"http://xml.org/sax/features/external-general-entities\", " + userAnswers[1] + " );\n\n" +
+                        "        dbf.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", " + userAnswers[2] + " );\n" +
                         "    }\n" +
                         "}";
 
@@ -102,11 +147,12 @@ public class GamePlay6 extends AppCompatActivity {
         }
     }
 
-
-
-    // ฟังก์ชันแสดงคำใบ้
     private void showHintDialog() {
-        Intent intent = new Intent(GamePlay6.this, HintDialog6.class);
-        startActivity(intent);
+        if (hintCount >= 3) {
+            Toast.makeText(this, "ใช้คำใบ้ครบ 3 ครั้งแล้ว (เหลือเฉพาะคำตอบที่ถูกต้อง)", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        HintDialog6 hintDialog = new HintDialog6(GamePlay6.this, this::useHint);
+        hintDialog.show();
     }
 }

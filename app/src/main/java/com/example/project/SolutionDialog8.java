@@ -1,4 +1,4 @@
-package com.example.project; // เปลี่ยนให้ตรงกับ package name ของโปรเจกต์คุณ
+package com.example.project;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,12 +25,15 @@ public class SolutionDialog8 extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // ปุ่มย้อนกลับ
         if (btnBackCategory != null) {
-            btnBackCategory.setOnClickListener(v -> finish());
+            btnBackCategory.setOnClickListener(v -> {
+                Intent intent = new Intent(SolutionDialog8.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
         }
 
-        // ปุ่มเข้าใจแล้ว / ไปข้อถัดไป (GamePlay9)
         if (btnDone != null) {
             btnDone.setOnClickListener(v -> {
                 Intent intent = new Intent(SolutionDialog8.this, GamePlay9.class);

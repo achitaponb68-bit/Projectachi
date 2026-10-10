@@ -1,34 +1,28 @@
-package com.example.project; // ตรงกับ package name ในโปรเจกต์ของคุณ
+package com.example.project;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamePlay8 extends AppCompatActivity {
 
-    // UI Components
     private Button btnBackCategory;
     private TextView tvQuestionCode;
     private Button btnOption1, btnOption2, btnOption3, btnOption4, btnOption5, btnOption6;
     private Button btnCheck, btnHint, btnNext;
 
-    // Logic Variables
-    private int selectedSlotIndex = 0; // 0 = ช่องที่ 1, 1 = ช่องที่ 2, 2 = ช่องที่ 3
+    private int selectedSlotIndex = 0;
     private final String[] userAnswers = {"[ ช่องที่ 1 ]", "[ ช่องที่ 2 ]", "[ ช่องที่ 3 ]"};
 
-    // คำตอบที่ถูกต้องสำหรับโจทย์ข้อนี้
-    // ช่องที่ 1: ? (Placeholder)
-    // ช่องที่ 2: ? (Placeholder)
-    // ช่องที่ 3: @user_email, @user_pass (ส่งตัวแปรเข้าไปใน EXECUTE USING)
-    private final String[] correctAnswers = {
-            "?",
-            "?",
-            "@user_email, @user_pass"
-    };
+    private int hintCount = 0;
+    private final List<Button> wrongOptions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +30,7 @@ public class GamePlay8 extends AppCompatActivity {
         setContentView(R.layout.activity_game_play8);
 
         initViews();
+        initWrongOptions();
         setupListeners();
         updateCodeDisplay();
     }
@@ -56,19 +51,49 @@ public class GamePlay8 extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
     }
 
+    private void initWrongOptions() {
+        wrongOptions.clear();
+        wrongOptions.add(btnOption3);
+        wrongOptions.add(btnOption4);
+        wrongOptions.add(btnOption5);
+    }
+
+    private void useHint() {
+        if (hintCount >= 3 || wrongOptions.isEmpty()) {
+            Toast.makeText(this, "ใช้คำใบ้ครบ 3 ครั้งแล้ว (เหลือเฉพาะคำตอบที่ถูกต้อง)", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Button btnToRemove = wrongOptions.remove(0);
+        if (btnToRemove != null) {
+            btnToRemove.setEnabled(false);
+            btnToRemove.setAlpha(0.3f);
+        }
+
+        hintCount++;
+        Toast.makeText(this, "ตัดตัวเลือกที่ผิดออกแล้ว 1 ข้อ (ใช้คำใบ้ไป " + hintCount + "/3)", Toast.LENGTH_SHORT).show();
+    }
+
     private void setupListeners() {
-        // ปุ่มย้อนกลับ
-        btnBackCategory.setOnClickListener(v -> finish());
+        if (btnBackCategory != null) {
+            btnBackCategory.setOnClickListener(v -> {
+                Intent intent = new Intent(GamePlay8.this, Catagory.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
-        // ปุ่มตัวเลือกคำตอบ (ปิดการใช้งานสำหรับหน้า SQL)
-        if (btnOption1 != null) btnOption1.setOnClickListener(null);
-        if (btnOption2 != null) btnOption2.setOnClickListener(null);
-        if (btnOption3 != null) btnOption3.setOnClickListener(null);
-        if (btnOption4 != null) btnOption4.setOnClickListener(null);
-        if (btnOption5 != null) btnOption5.setOnClickListener(null);
-        if (btnOption6 != null) btnOption6.setOnClickListener(null);
+        if (btnOption1 != null) btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
+        if (btnOption2 != null) btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
+        if (btnOption3 != null) btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
+        if (btnOption4 != null) btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
+        if (btnOption5 != null) btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
+        if (btnOption6 != null) btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
 
-        // ปุ่มตรวจคำตอบ (เชื่อมตรงไปหน้าเฉลย)
+        if (tvQuestionCode != null) {
+            tvQuestionCode.setOnClickListener(v -> resetAnswers());
+        }
+
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
                 Intent intent = new Intent(GamePlay8.this, SolutionDialog8.class);
@@ -76,38 +101,54 @@ public class GamePlay8 extends AppCompatActivity {
             });
         }
 
-        // ปุ่มคำใบ้
-        btnHint.setOnClickListener(v -> showHintDialog());
+        if (btnHint != null) {
+            btnHint.setOnClickListener(v -> showHintDialog());
+        }
 
-        // ปุ่มข้อถัดไป
-        btnNext.setOnClickListener(v -> goToNextQuestion());
+        if (btnNext != null) {
+            btnNext.setOnClickListener(v -> goToNextQuestion());
+        }
     }
 
+    private void selectOption(String selectedValue) {
+        userAnswers[selectedSlotIndex] = selectedValue;
+        selectedSlotIndex = (selectedSlotIndex + 1) % 3;
+        updateCodeDisplay();
+    }
 
+    private void resetAnswers() {
+        userAnswers[0] = "[ ช่องที่ 1 ]";
+        userAnswers[1] = "[ ช่องที่ 2 ]";
+        userAnswers[2] = "[ ช่องที่ 3 ]";
+        selectedSlotIndex = 0;
+        updateCodeDisplay();
+    }
 
     private void updateCodeDisplay() {
         String codeTemplate =
                 "-- สร้างคำสั่งที่ปลอดภัยสำหรับการตรวจสอบการเข้าสู่ระบบ\n" +
                         "PREPARE login_stmt FROM\n\n" +
-                        "'SELECT role, username FROM customer WHERE email = [ ช่องที่ 1 ] AND password_hash = [ ช่องที่ 2 ]';\n\n\n" +
+                        "'SELECT role, username FROM customer WHERE email = " + userAnswers[0] + " AND password_hash = " + userAnswers[1] + "';\n\n\n" +
                         "-- รับค่าที่ได้จากผู้ใช้มาเก็บไว้ในตัวแปร\n" +
                         "SET @user_email = 'user@example.com';\n" +
                         "SET @user_pass = 'hashed_pass_value';\n\n\n" +
                         "-- เรียกใช้คำสั่งโดยส่งค่าตัวแปรเข้าไป\n" +
-                        "EXECUTE login_stmt USING [ ช่องที่ 3 ];";
+                        "EXECUTE login_stmt USING " + userAnswers[2] + ";";
 
-        tvQuestionCode.setText(codeTemplate);
+        if (tvQuestionCode != null) {
+            tvQuestionCode.setText(codeTemplate);
+        }
     }
 
-
-
-    // แสดงคำใบ้
     private void showHintDialog() {
-        Intent intent = new Intent(GamePlay8.this, HintDialog8.class);
-        startActivity(intent);
+        if (hintCount >= 3) {
+            Toast.makeText(this, "ใช้คำใบ้ครบ 3 ครั้งแล้ว (เหลือเฉพาะคำตอบที่ถูกต้อง)", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        HintDialog8 hintDialog = new HintDialog8(GamePlay8.this, this::useHint);
+        hintDialog.show();
     }
 
-    // ไปข้อถัดไป (GamePlay9)
     private void goToNextQuestion() {
         Intent intent = new Intent(GamePlay8.this, GamePlay9.class);
         startActivity(intent);

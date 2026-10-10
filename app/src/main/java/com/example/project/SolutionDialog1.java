@@ -29,22 +29,19 @@ public class SolutionDialog1 extends AppCompatActivity {
             return insets;
         });
 
-        // ผูก View กับ ID ใน XML
         tvCodeSolution = findViewById(R.id.tvCodeSolution);
         btnBackMenu = findViewById(R.id.btnBackMenu);
         btnNextQuestion = findViewById(R.id.btnNextQuestion);
 
-        // ปุ่มกลับเมนูหลัก
         if (btnBackMenu != null) {
             btnBackMenu.setOnClickListener(v -> {
-                Intent intent = new Intent(SolutionDialog1.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent intent = new Intent(SolutionDialog1.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             });
         }
 
-        // ปุ่มไปข้อถัดไป (เปิด GamePlay2)
         if (btnNextQuestion != null) {
             btnNextQuestion.setOnClickListener(v -> {
                 Toast.makeText(this, "กำลังไปยังโจทย์ข้อถัดไป...", Toast.LENGTH_SHORT).show();

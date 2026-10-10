@@ -1,18 +1,15 @@
 package com.example.project;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Difficulty_SQL extends AppCompatActivity {
 
-    // ประกาศตัวแปร UI
     private Button btnBack, btnStartGame;
     private LinearLayout btnEasy, btnMedium, btnHard;
     private TextView tvStatusEasy, tvStatusMedium, tvStatusHard;
@@ -28,7 +25,6 @@ public class Difficulty_SQL extends AppCompatActivity {
         initViews();
         setupListeners();
 
-        // เลือกด่านเริ่มต้นเป็น Easy
         selectDifficulty("Easy");
     }
 
@@ -46,7 +42,14 @@ public class Difficulty_SQL extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        btnBack.setOnClickListener(v -> finish());
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                Intent intent = new Intent(Difficulty_SQL.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
+        }
 
         btnEasy.setOnClickListener(v -> selectDifficulty("Easy"));
         btnMedium.setOnClickListener(v -> selectDifficulty("Medium"));
@@ -70,12 +73,10 @@ public class Difficulty_SQL extends AppCompatActivity {
     private void selectDifficulty(String level) {
         selectedDifficulty = level;
 
-        // ซ่อนสถานะทั้งหมดก่อน
         if (tvStatusEasy != null) tvStatusEasy.setVisibility(View.GONE);
         if (tvStatusMedium != null) tvStatusMedium.setVisibility(View.GONE);
         if (tvStatusHard != null) tvStatusHard.setVisibility(View.GONE);
 
-        // แสดงสถานะการเลือกของระดับที่คลิก
         if ("Easy".equals(level)) {
             if (tvStatusEasy != null) tvStatusEasy.setVisibility(View.VISIBLE);
             if (tvSelectedDifficultyText != null) tvSelectedDifficultyText.setText("⚡ เลิอด่านง่ายแล้ว");

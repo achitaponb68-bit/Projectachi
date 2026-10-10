@@ -1,4 +1,4 @@
-package com.example.project; // เปลี่ยนให้ตรงกับ package ในโปรเจกต์ของคุณ
+package com.example.project;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,16 +25,19 @@ public class SolutionDialog7 extends AppCompatActivity {
     private void initViews() {
         btnBackMenu = findViewById(R.id.btnBackMenu);
         btnNextQuestion = findViewById(R.id.btnNextQuestion);
-        tvSolutionCode = findViewById(R.id.tvSolutionCode);
+        tvSolutionCode = findViewById(R.id.tvCodeSolution);
     }
 
     private void setupListeners() {
-        // ปุ่มย้อนกลับ
         if (btnBackMenu != null) {
-            btnBackMenu.setOnClickListener(v -> finish());
+            btnBackMenu.setOnClickListener(v -> {
+                Intent intent = new Intent(SolutionDialog7.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
         }
 
-        // ปุ่มเข้าใจแล้ว / ไปข้อถัดไป (GamePlay8)
         if (btnNextQuestion != null) {
             btnNextQuestion.setOnClickListener(v -> {
                 Intent intent = new Intent(SolutionDialog7.this, GamePlay8.class);
@@ -52,6 +55,8 @@ public class SolutionDialog7 extends AppCompatActivity {
                         "AND\n" +
                         "status = 'active';";
 
-        tvSolutionCode.setText(fullSolutionCode);
+        if (tvSolutionCode != null) {
+            tvSolutionCode.setText(fullSolutionCode);
+        }
     }
 }

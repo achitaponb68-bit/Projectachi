@@ -1,37 +1,56 @@
 package com.example.project;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import androidx.annotation.NonNull;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+public class HintDialog3 extends Dialog {
 
-public class HintDialog3 extends AppCompatActivity {
+    public interface OnHintUseListener {
+        void onUseHint();
+    }
 
-    private Button btnUse5050, btnCloseHint;
+    private final OnHintUseListener listener;
+
+    public HintDialog3(@NonNull Context context, OnHintUseListener listener) {
+        super(context);
+        this.listener = listener;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_hint_dialog3);
 
-        // 1. ผูก View กับ ID จากไฟล์ activity_hint_dialog3.xml
-        btnUse5050 = findViewById(R.id.btnUse5050);
-        btnCloseHint = findViewById(R.id.btnCloseHint);
+        if (getWindow() != null) {
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getWindow().setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT
+            );
+        }
 
-        // 2. เมื่อกดปุ่ม "ใช้งานเพื่อตัดตัวเลือกที่ผิด"
-        btnUse5050.setOnClickListener(v -> {
-            setResult(RESULT_OK); // ส่งค่า RESULT_OK กลับไปบอกหน้า GamePlay ว่าตกลงใช้คำใบ้
-            finish();              // ปิดหน้า Dialog
-        });
+        View btnUse = findViewById(R.id.btnUse5050);
+        View btnClose = findViewById(R.id.btnCloseHint);
 
-        // 3. เมื่อกดปุ่ม "ยกเลิก / ปิด"
-        btnCloseHint.setOnClickListener(v -> {
-            setResult(RESULT_CANCELED); // ส่งค่า canceled เพื่อยกเลิก
-            finish();                   // ปิดหน้า Dialog
-        });
+        if (btnUse != null) {
+            btnUse.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onUseHint();
+                }
+                dismiss();
+            });
+        }
+
+        if (btnClose != null) {
+            btnClose.setOnClickListener(v -> dismiss());
+        }
     }
 }

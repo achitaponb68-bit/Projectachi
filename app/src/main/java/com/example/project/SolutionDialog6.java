@@ -1,5 +1,6 @@
-package com.example.project; // ตรงตาม package name ของโปรเจกต์คุณ
+package com.example.project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,13 +28,15 @@ public class SolutionDialog6 extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // ปุ่มกลับเมนู (ปิดหน้าปัจจุบันและหน้า GamePlay ก่อนหน้าได้ถ้าใช้ Intent flag,
-        // สำหรับที่นี่ใช้ finish() เพื่อปิดหน้านี้)
         if (btnBackCategory != null) {
-            btnBackCategory.setOnClickListener(v -> finish());
+            btnBackCategory.setOnClickListener(v -> {
+                Intent intent = new Intent(SolutionDialog6.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
         }
 
-        // ปุ่มเข้าใจแล้ว / ปิดหน้าเฉลย
         if (btnDone != null) {
             btnDone.setOnClickListener(v -> finish());
         }

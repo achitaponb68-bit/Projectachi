@@ -1,19 +1,17 @@
-package com.example.project; // เปลี่ยนเป็น package ของคุณ
+package com.example.project;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 public class HintDialog1 extends Dialog {
 
-    // Interface สำหรับส่ง Event เมื่อผู้ใช้กดปุ่มใช้ตัวช่วย
     public interface OnHintUseListener {
         void onUseHint();
     }
@@ -31,7 +29,6 @@ public class HintDialog1 extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_hint_dialog1);
 
-        // ตั้งค่าให้พื้นหลัง Dialog โปร่งใสเพื่อแสดงขอบมน CardView ชัดเจน
         if (getWindow() != null) {
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             getWindow().setLayout(
@@ -40,18 +37,20 @@ public class HintDialog1 extends Dialog {
             );
         }
 
-        Button btnUseHint = findViewById(R.id.btnUseHint);
-        TextView tvCloseDialog = findViewById(R.id.tvCloseDialog);
+        View btnUse = findViewById(R.id.btnUseHint);
+        View btnClose = findViewById(R.id.tvCloseDialog);
 
-        // กดปุ่มใช้งานเพื่อตัดตัวเลือก
-        btnUseHint.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onUseHint();
-            }
-            dismiss();
-        });
+        if (btnUse != null) {
+            btnUse.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onUseHint();
+                }
+                dismiss();
+            });
+        }
 
-        // กดปุ่มยกเลิก / ปิด
-        tvCloseDialog.setOnClickListener(v -> dismiss());
+        if (btnClose != null) {
+            btnClose.setOnClickListener(v -> dismiss());
+        }
     }
 }

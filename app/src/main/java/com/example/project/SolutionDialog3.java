@@ -29,22 +29,19 @@ public class SolutionDialog3 extends AppCompatActivity {
             return insets;
         });
 
-        // ผูก View กับ ID ใน XML
         tvCodeSolution = findViewById(R.id.tvCodeSolution);
         btnBackMenu = findViewById(R.id.btnBackMenu);
         btnNextQuestion = findViewById(R.id.btnNextQuestion);
 
-        // 1. ปุ่มกลับเมนูหลัก
         if (btnBackMenu != null) {
             btnBackMenu.setOnClickListener(v -> {
-                Intent intent = new Intent(SolutionDialog3.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent intent = new Intent(SolutionDialog3.this, Catagory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             });
         }
 
-        // 2. ปุ่มสรุปคะแนน / ข้อถัดไป
         if (btnNextQuestion != null) {
             btnNextQuestion.setOnClickListener(v -> {
                 Toast.makeText(this, "จบด่านแล้ว! กำลังไปยังหน้าสรุปคะแนน...", Toast.LENGTH_SHORT).show();
