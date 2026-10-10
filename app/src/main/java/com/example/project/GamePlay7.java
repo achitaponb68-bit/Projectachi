@@ -54,6 +54,21 @@ public class GamePlay7 extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
     }
 
+    private boolean isAllAnswersCorrect() {
+        return "AND".equals(userAnswers[0]) &&
+               "status".equals(userAnswers[1]) &&
+               "'active'".equals(userAnswers[2]);
+    }
+
+    private void checkAndRecordAnswer() {
+        if (isAllAnswersCorrect()) {
+            GameProgressManager.markStageCompleted(this, 7);
+            Toast.makeText(this, "ตอบถูกต้องครบทั้ง 3 ช่อง! บันทึกด่านสำเร็จแล้ว 🎉", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้องครบทั้ง 3 ช่อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void initWrongOptions() {
         wrongOptions.clear();
         wrongOptions.add(btnOption4);
@@ -138,6 +153,7 @@ public class GamePlay7 extends AppCompatActivity {
     }
 
     private void checkAnswers() {
+        checkAndRecordAnswer();
         Intent intent = new Intent(GamePlay7.this, SolutionDialog7.class);
         startActivity(intent);
     }
@@ -152,6 +168,9 @@ public class GamePlay7 extends AppCompatActivity {
     }
 
     private void goToNextQuestion() {
+        if (isAllAnswersCorrect()) {
+            GameProgressManager.markStageCompleted(GamePlay7.this, 7);
+        }
         Intent intent = new Intent(GamePlay7.this, GamePlay8.class);
         startActivity(intent);
         finish();

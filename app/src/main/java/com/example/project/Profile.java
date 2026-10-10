@@ -32,12 +32,14 @@ public class Profile extends AppCompatActivity {
         tvCompletedStages = findViewById(R.id.tvCompletedStages);
         btnBack = findViewById(R.id.button14);
 
+        int completedCount = GameProgressManager.getCompletedStagesCount(this);
+
         // กำหนดข้อมูลแสดงผลบนหน้าโปรไฟล์
         if (tvPlayerName != null) {
             tvPlayerName.setText("ผู้เล่น Codie");
         }
         if (tvCompletedStages != null) {
-            tvCompletedStages.setText("ด่านที่ทำสำเร็จ: 8 ด่าน");
+            tvCompletedStages.setText("ด่านที่ทำสำเร็จ : " + completedCount + " ด่าน");
         }
 
         // ปุ่มกลับไปหน้าเมนูหลัก

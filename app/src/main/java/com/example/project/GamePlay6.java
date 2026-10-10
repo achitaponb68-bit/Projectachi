@@ -51,6 +51,21 @@ public class GamePlay6 extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
     }
 
+    private boolean isAllAnswersCorrect() {
+        return "http://apache.org/xml/features/disallow-doctype-decl".equals(userAnswers[0]) &&
+               "false".equals(userAnswers[1]) &&
+               "false".equals(userAnswers[2]);
+    }
+
+    private void checkAndRecordAnswer() {
+        if (isAllAnswersCorrect()) {
+            GameProgressManager.markStageCompleted(this, 6);
+            Toast.makeText(this, "ตอบถูกต้องครบทั้ง 3 ช่อง! บันทึกด่านสำเร็จแล้ว 🎉", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้องครบทั้ง 3 ช่อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void initWrongOptions() {
         wrongOptions.clear();
         wrongOptions.add(btnOption3);
@@ -97,6 +112,7 @@ public class GamePlay6 extends AppCompatActivity {
 
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
+                checkAndRecordAnswer();
                 Intent intent = new Intent(GamePlay6.this, SolutionDialog6.class);
                 startActivity(intent);
             });
@@ -108,6 +124,9 @@ public class GamePlay6 extends AppCompatActivity {
 
         if (btnNext != null) {
             btnNext.setOnClickListener(v -> {
+                if (isAllAnswersCorrect()) {
+                    GameProgressManager.markStageCompleted(GamePlay6.this, 6);
+                }
                 Intent intent = new Intent(GamePlay6.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);

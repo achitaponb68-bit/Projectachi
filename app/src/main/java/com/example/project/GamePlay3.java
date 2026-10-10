@@ -81,6 +81,7 @@ public class GamePlay3 extends AppCompatActivity {
 
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
+                checkAndRecordAnswer();
                 Intent intent = new Intent(GamePlay3.this, SolutionDialog3.class);
                 startActivity(intent);
             });
@@ -99,11 +100,29 @@ public class GamePlay3 extends AppCompatActivity {
 
         if (btnNext != null) {
             btnNext.setOnClickListener(v -> {
+                if (isAllAnswersCorrect()) {
+                    GameProgressManager.markStageCompleted(GamePlay3.this, 3);
+                }
                 Intent intent = new Intent(GamePlay3.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();
             });
+        }
+    }
+
+    private boolean isAllAnswersCorrect() {
+        return "buf[i] = '\\0';".equals(userAnswers[0]) &&
+               "safe_zeroize(secret, size);".equals(userAnswers[1]) &&
+               "secret[0] == '\\0'".equals(userAnswers[2]);
+    }
+
+    private void checkAndRecordAnswer() {
+        if (isAllAnswersCorrect()) {
+            GameProgressManager.markStageCompleted(this, 3);
+            Toast.makeText(this, "ตอบถูกต้องครบทั้ง 3 ช่อง! บันทึกด่านสำเร็จแล้ว 🎉", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้องครบทั้ง 3 ช่อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
         }
     }
 

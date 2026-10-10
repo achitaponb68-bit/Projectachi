@@ -71,6 +71,7 @@ public class GamePlay extends AppCompatActivity {
         }
 
         btnCheck.setOnClickListener(v -> {
+            checkAndRecordAnswer();
             Intent intent = new Intent(GamePlay.this, SolutionDialog1.class);
             startActivity(intent);
         });
@@ -85,12 +86,30 @@ public class GamePlay extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> {
+            if (isAllAnswersCorrect()) {
+                GameProgressManager.markStageCompleted(GamePlay.this, 1);
+            }
             Intent intent = new Intent(GamePlay.this, GamePlay2.class);
             intent.putExtra("category", category);
             intent.putExtra("difficulty", difficulty);
             startActivity(intent);
             finish();
         });
+    }
+
+    private boolean isAllAnswersCorrect() {
+        return "has_at = 1;".equals(userAnswers[0]) &&
+               "len >= 8 && has_at == 1".equals(userAnswers[1]) &&
+               "printf(\"Weak Password\\n\");".equals(userAnswers[2]);
+    }
+
+    private void checkAndRecordAnswer() {
+        if (isAllAnswersCorrect()) {
+            GameProgressManager.markStageCompleted(this, 1);
+            Toast.makeText(this, "ตอบถูกต้องครบทั้ง 3 ช่อง! บันทึกด่านสำเร็จแล้ว 🎉", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้องครบทั้ง 3 ช่อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initWrongOptions() {

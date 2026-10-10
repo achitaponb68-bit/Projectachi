@@ -51,6 +51,21 @@ public class GamePlay9 extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
     }
 
+    private boolean isAllAnswersCorrect() {
+        return "MASKED".equals(userAnswers[0]) &&
+               "partial(0,\"XXXXXXXXX\",4)".equals(userAnswers[1]) &&
+               "GRANT".equals(userAnswers[2]);
+    }
+
+    private void checkAndRecordAnswer() {
+        if (isAllAnswersCorrect()) {
+            GameProgressManager.markStageCompleted(this, 9);
+            Toast.makeText(this, "ตอบถูกต้องครบทั้ง 3 ช่อง! บันทึกด่านสำเร็จแล้ว 🎉", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้องครบทั้ง 3 ช่อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void initWrongOptions() {
         wrongOptions.clear();
         wrongOptions.add(btnOption2);
@@ -96,6 +111,7 @@ public class GamePlay9 extends AppCompatActivity {
 
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
+                checkAndRecordAnswer();
                 Intent intent = new Intent(GamePlay9.this, SolutionDialog9.class);
                 startActivity(intent);
             });
@@ -148,6 +164,9 @@ public class GamePlay9 extends AppCompatActivity {
     }
 
     private void goToNextQuestion() {
+        if (isAllAnswersCorrect()) {
+            GameProgressManager.markStageCompleted(GamePlay9.this, 9);
+        }
         Intent intent = new Intent(GamePlay9.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
