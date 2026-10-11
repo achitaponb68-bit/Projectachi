@@ -155,9 +155,13 @@ public class GamePlay7 extends AppCompatActivity {
     }
 
     private void checkAnswers() {
-        checkAndRecordAnswer();
-        Intent intent = new Intent(GamePlay7.this, SolutionDialog7.class);
-        startActivity(intent);
+        if (isAllAnswersCorrect()) {
+            checkAndRecordAnswer();
+            Intent intent = new Intent(GamePlay7.this, SolutionDialog7.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showHintDialog() {
@@ -172,9 +176,11 @@ public class GamePlay7 extends AppCompatActivity {
     private void goToNextQuestion() {
         if (isAllAnswersCorrect()) {
             GameProgressManager.markStageCompleted(GamePlay7.this, 7);
+            Intent intent = new Intent(GamePlay7.this, GamePlay8.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้อง กรุณาตอบให้ถูกต้องก่อนไปข้อถัดไป", Toast.LENGTH_SHORT).show();
         }
-        Intent intent = new Intent(GamePlay7.this, GamePlay8.class);
-        startActivity(intent);
-        finish();
     }
 }

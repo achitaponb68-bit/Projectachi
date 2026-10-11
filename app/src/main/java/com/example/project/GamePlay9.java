@@ -112,9 +112,13 @@ public class GamePlay9 extends AppCompatActivity {
 
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
-                checkAndRecordAnswer();
-                Intent intent = new Intent(GamePlay9.this, SolutionDialog9.class);
-                startActivity(intent);
+                if (isAllAnswersCorrect()) {
+                    checkAndRecordAnswer();
+                    Intent intent = new Intent(GamePlay9.this, SolutionDialog9.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "คำตอบยังไม่ถูกต้อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+                }
             });
         }
 
@@ -167,12 +171,14 @@ public class GamePlay9 extends AppCompatActivity {
     private void goToNextQuestion() {
         if (isAllAnswersCorrect()) {
             GameProgressManager.markStageCompleted(GamePlay9.this, 9);
+            Intent intent = new Intent(GamePlay9.this, Summary.class);
+            intent.putExtra("hintCount", hintCount);
+            intent.putExtra("category", "SQL");
+            intent.putExtra("nextButtonLabel", "เลือกหมวดหมู่");
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(this, "คำตอบยังไม่ถูกต้อง กรุณาตอบให้ถูกต้องก่อนไปข้อถัดไป", Toast.LENGTH_SHORT).show();
         }
-        Intent intent = new Intent(GamePlay9.this, Summary.class);
-        intent.putExtra("hintCount", hintCount);
-        intent.putExtra("category", "SQL");
-        intent.putExtra("nextButtonLabel", "เลือกหมวดหมู่");
-        startActivity(intent);
-        finish();
     }
 }

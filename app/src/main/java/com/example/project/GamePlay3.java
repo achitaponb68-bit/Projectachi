@@ -81,9 +81,13 @@ public class GamePlay3 extends AppCompatActivity {
 
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
-                checkAndRecordAnswer();
-                Intent intent = new Intent(GamePlay3.this, SolutionDialog3.class);
-                startActivity(intent);
+                if (isAllAnswersCorrect()) {
+                    checkAndRecordAnswer();
+                    Intent intent = new Intent(GamePlay3.this, SolutionDialog3.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "คำตอบยังไม่ถูกต้อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+                }
             });
         }
 
@@ -102,13 +106,15 @@ public class GamePlay3 extends AppCompatActivity {
             btnNext.setOnClickListener(v -> {
                 if (isAllAnswersCorrect()) {
                     GameProgressManager.markStageCompleted(GamePlay3.this, 3);
+                    Intent intent = new Intent(GamePlay3.this, Summary.class);
+                    intent.putExtra("hintCount", hintCount);
+                    intent.putExtra("category", "C");
+                    intent.putExtra("nextButtonLabel", "เลือกหมวดหมู่");
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(this, "คำตอบยังไม่ถูกต้อง กรุณาตอบให้ถูกต้องก่อนไปข้อถัดไป", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(GamePlay3.this, Summary.class);
-                intent.putExtra("hintCount", hintCount);
-                intent.putExtra("category", "C");
-                intent.putExtra("nextButtonLabel", "เลือกหมวดหมู่");
-                startActivity(intent);
-                finish();
             });
         }
     }

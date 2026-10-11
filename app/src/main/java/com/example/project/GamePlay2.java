@@ -81,9 +81,13 @@ public class GamePlay2 extends AppCompatActivity {
 
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> {
-                checkAndRecordAnswer();
-                Intent intent = new Intent(GamePlay2.this, SolutionDialog2.class);
-                startActivity(intent);
+                if (isAllAnswersCorrect()) {
+                    checkAndRecordAnswer();
+                    Intent intent = new Intent(GamePlay2.this, SolutionDialog2.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "คำตอบยังไม่ถูกต้อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+                }
             });
         }
 
@@ -102,12 +106,14 @@ public class GamePlay2 extends AppCompatActivity {
             btnNext.setOnClickListener(v -> {
                 if (isAllAnswersCorrect()) {
                     GameProgressManager.markStageCompleted(GamePlay2.this, 2);
+                    Intent intent = new Intent(GamePlay2.this, GamePlay3.class);
+                    intent.putExtra("category", category);
+                    intent.putExtra("difficulty", difficulty);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(this, "คำตอบยังไม่ถูกต้อง กรุณาตอบให้ถูกต้องก่อนไปข้อถัดไป", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(GamePlay2.this, GamePlay3.class);
-                intent.putExtra("category", category);
-                intent.putExtra("difficulty", difficulty);
-                startActivity(intent);
-                finish();
             });
         }
     }
