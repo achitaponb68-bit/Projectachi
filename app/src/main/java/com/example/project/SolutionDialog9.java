@@ -36,8 +36,9 @@ public class SolutionDialog9 extends AppCompatActivity {
 
         if (btnDone != null) {
             btnDone.setOnClickListener(v -> {
-                Intent intent = new Intent(SolutionDialog9.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent intent = new Intent(SolutionDialog9.this, Summary.class);
+                intent.putExtra("category", "SQL");
+                intent.putExtra("nextButtonLabel", "เลือกหมวดหมู่");
                 startActivity(intent);
                 finish();
             });

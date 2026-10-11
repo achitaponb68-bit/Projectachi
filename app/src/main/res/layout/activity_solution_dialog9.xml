@@ -270,7 +270,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#0EA5E9"
                 android:paddingVertical="12dp"
-                android:text="เข้าใจแล้ว ✔"
+                android:text="สรุปผล ➔"
                 tools:ignore="HardcodedText"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SolutionDialog6 extends AppCompatActivity {
@@ -40,9 +39,9 @@ public class SolutionDialog6 extends AppCompatActivity {
 
         if (btnDone != null) {
             btnDone.setOnClickListener(v -> {
-                Toast.makeText(this, "กำลังกลับสู่หน้าหลัก...", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SolutionDialog6.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(SolutionDialog6.this, Summary.class);
+                intent.putExtra("category", "Java");
+                intent.putExtra("nextButtonLabel", "เลือกหมวดหมู่");
                 startActivity(intent);
                 finish();
             });
