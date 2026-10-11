@@ -31,6 +31,7 @@ public class GamePlay7 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play7);
+        GameProgressManager.resetCategoryHints(this, "SQL");
 
         initViews();
         initWrongOptions();
@@ -89,6 +90,7 @@ public class GamePlay7 extends AppCompatActivity {
         }
 
         hintCount++;
+        GameProgressManager.recordStageHints(this, 7, hintCount);
         Toast.makeText(this, "ตัดตัวเลือกที่ผิดออกแล้ว 1 ข้อ (ใช้คำใบ้ไป " + hintCount + "/3)", Toast.LENGTH_SHORT).show();
     }
 

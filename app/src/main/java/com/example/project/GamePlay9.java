@@ -86,6 +86,7 @@ public class GamePlay9 extends AppCompatActivity {
         }
 
         hintCount++;
+        GameProgressManager.recordStageHints(this, 9, hintCount);
         Toast.makeText(this, "ตัดตัวเลือกที่ผิดออกแล้ว 1 ข้อ (ใช้คำใบ้ไป " + hintCount + "/3)", Toast.LENGTH_SHORT).show();
     }
 
@@ -167,8 +168,10 @@ public class GamePlay9 extends AppCompatActivity {
         if (isAllAnswersCorrect()) {
             GameProgressManager.markStageCompleted(GamePlay9.this, 9);
         }
-        Intent intent = new Intent(GamePlay9.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        Intent intent = new Intent(GamePlay9.this, Summary.class);
+        intent.putExtra("hintCount", hintCount);
+        intent.putExtra("category", "SQL");
+        intent.putExtra("nextButtonLabel", "เลือกหมวดหมู่");
         startActivity(intent);
         finish();
     }

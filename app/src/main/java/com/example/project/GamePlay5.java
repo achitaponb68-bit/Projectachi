@@ -147,6 +147,7 @@ public class GamePlay5 extends AppCompatActivity {
         }
 
         hintCount++;
+        GameProgressManager.recordStageHints(this, 5, hintCount);
         Toast.makeText(this, "ตัดตัวเลือกที่ผิดออกแล้ว 1 ข้อ (ใช้คำใบ้ไป " + hintCount + "/3)", Toast.LENGTH_SHORT).show();
     }
 

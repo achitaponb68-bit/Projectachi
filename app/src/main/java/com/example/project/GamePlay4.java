@@ -35,6 +35,7 @@ public class GamePlay4 extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.activity_game_play4);
+        GameProgressManager.resetCategoryHints(this, "Java");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -147,6 +148,7 @@ public class GamePlay4 extends AppCompatActivity {
         }
 
         hintCount++;
+        GameProgressManager.recordStageHints(this, 4, hintCount);
         Toast.makeText(this, "ตัดตัวเลือกที่ผิดออกแล้ว 1 ข้อ (ใช้คำใบ้ไป " + hintCount + "/3)", Toast.LENGTH_SHORT).show();
     }
 

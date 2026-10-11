@@ -62,6 +62,7 @@ public class Difficulty_Java extends AppCompatActivity {
             } else if ("Hard".equals(selectedDifficulty)) {
                 intent = new Intent(Difficulty_Java.this, GamePlay6.class);
             } else {
+                GameProgressManager.resetCategoryHints(Difficulty_Java.this, "Java");
                 intent = new Intent(Difficulty_Java.this, GamePlay4.class);
             }
             intent.putExtra("LANGUAGE", "Java");

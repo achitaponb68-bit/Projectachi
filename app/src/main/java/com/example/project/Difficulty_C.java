@@ -62,6 +62,7 @@ public class Difficulty_C extends AppCompatActivity {
             } else if ("Hard".equals(selectedDifficulty)) {
                 intent = new Intent(Difficulty_C.this, GamePlay3.class);
             } else {
+                GameProgressManager.resetCategoryHints(Difficulty_C.this, "C");
                 intent = new Intent(Difficulty_C.this, GamePlay.class);
             }
             intent.putExtra("DIFFICULTY_LEVEL", selectedDifficulty);

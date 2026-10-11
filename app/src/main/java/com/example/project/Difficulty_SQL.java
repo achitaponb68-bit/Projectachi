@@ -62,6 +62,7 @@ public class Difficulty_SQL extends AppCompatActivity {
             } else if ("Hard".equals(selectedDifficulty)) {
                 intent = new Intent(Difficulty_SQL.this, GamePlay9.class);
             } else {
+                GameProgressManager.resetCategoryHints(Difficulty_SQL.this, "SQL");
                 intent = new Intent(Difficulty_SQL.this, GamePlay7.class);
             }
             intent.putExtra("LANGUAGE", "SQL");

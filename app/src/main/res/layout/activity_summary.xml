@@ -146,7 +146,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="คำตอบที่พลาด"
+                                android:text="จำนวนด่านที่ถูก"
                                 android:textColor="#FFFFFF"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -156,7 +156,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
-                                android:text="ตอบผิดทั้งหมด: 0 ครั้ง"
+                                android:text="ตอบถูกทั้งหมด: 0 / 3 ด่าน"
                                 android:textColor="#9D98C7"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -164,14 +164,14 @@
                         <FrameLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="#3D1228">
+                            android:background="#123D28">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="✖"
-                                android:textColor="#FF2E93"
+                                android:text="✔"
+                                android:textColor="#4ADE80"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
                         </FrameLayout>

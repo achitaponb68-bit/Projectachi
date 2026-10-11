@@ -24,4 +24,78 @@ public class GameProgressManager {
         }
         return count;
     }
+
+    public static int getCompletedStagesCountForCategory(Context context, String category) {
+        if (context == null) return 0;
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        int start;
+        int end;
+        if (category != null && category.equalsIgnoreCase("Java")) {
+            start = 4;
+            end = 6;
+        } else if (category != null && category.equalsIgnoreCase("SQL")) {
+            start = 7;
+            end = 9;
+        } else {
+            start = 1;
+            end = 3;
+        }
+        int count = 0;
+        for (int i = start; i <= end; i++) {
+            if (prefs.getBoolean("stage_" + i + "_completed", false)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void recordStageHints(Context context, int stageNumber, int hintCount) {
+        if (context == null || stageNumber < 1 || stageNumber > 9) return;
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putInt("stage_" + stageNumber + "_hints", hintCount).apply();
+    }
+
+    public static void resetCategoryHints(Context context, String category) {
+        if (context == null) return;
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        int start;
+        int end;
+        if (category != null && category.equalsIgnoreCase("Java")) {
+            start = 4;
+            end = 6;
+        } else if (category != null && category.equalsIgnoreCase("SQL")) {
+            start = 7;
+            end = 9;
+        } else {
+            start = 1;
+            end = 3;
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        for (int i = start; i <= end; i++) {
+            editor.putInt("stage_" + i + "_hints", 0);
+        }
+        editor.apply();
+    }
+
+    public static int getCategoryHintsCount(Context context, String category) {
+        if (context == null) return 0;
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        int start;
+        int end;
+        if (category != null && category.equalsIgnoreCase("Java")) {
+            start = 4;
+            end = 6;
+        } else if (category != null && category.equalsIgnoreCase("SQL")) {
+            start = 7;
+            end = 9;
+        } else {
+            start = 1;
+            end = 3;
+        }
+        int totalHints = 0;
+        for (int i = start; i <= end; i++) {
+            totalHints += prefs.getInt("stage_" + i + "_hints", 0);
+        }
+        return totalHints;
+    }
 }

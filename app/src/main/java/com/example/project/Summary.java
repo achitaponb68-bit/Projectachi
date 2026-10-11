@@ -28,9 +28,13 @@ public class Summary extends AppCompatActivity {
             return insets;
         });
 
-        int hintCount = getIntent().getIntExtra("hintCount", 0);
-        int wrongCount = getIntent().getIntExtra("wrongCount", 0);
+        String category = getIntent().getStringExtra("category");
         String nextButtonLabel = getIntent().getStringExtra("nextButtonLabel");
+
+        int extraCorrect = getIntent().getIntExtra("correctStages", -1);
+        int correctStages = (extraCorrect != -1) ? extraCorrect : GameProgressManager.getCompletedStagesCountForCategory(this, category);
+
+        int categoryHints = GameProgressManager.getCategoryHintsCount(this, category);
 
         // ผูก View จาก XML
         tvHintDetails = findViewById(R.id.tvHintDetails);
@@ -40,10 +44,10 @@ public class Summary extends AppCompatActivity {
 
         // อัปเดตข้อความตามจำนวนที่ได้รับ
         if (tvHintDetails != null) {
-            tvHintDetails.setText("ใช้คำใบ้ไปทั้งหมด: " + hintCount + " ครั้ง");
+            tvHintDetails.setText("ใช้คำใบ้ไปทั้งหมด: " + categoryHints + " ครั้ง");
         }
         if (tvWrongDetails != null) {
-            tvWrongDetails.setText("ตอบผิดทั้งหมด: " + wrongCount + " ครั้ง");
+            tvWrongDetails.setText("ตอบถูกทั้งหมด: " + correctStages + " / 3 ด่าน");
         }
 
         if (btnNextStage != null && nextButtonLabel != null && !nextButtonLabel.isEmpty()) {
