@@ -10,14 +10,24 @@ import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 
+/**
+ * HintDialog8: คลาส Dialog สำหรับแสดงป๊อปอัปยืนยันการใช้คำใบ้ในด่านที่ 8
+ * ใช้ Interface Callback (OnHintUseListener) สื่อสารกับคลาส GamePlay8
+ */
 public class HintDialog8 extends Dialog {
 
+    /**
+     * อินเทอร์เฟซตัวรับฟังอีเวนต์เมื่อผู้ใช้ยืนยันจะใช้คำใบ้
+     */
     public interface OnHintUseListener {
         void onUseHint();
     }
 
     private final OnHintUseListener listener;
 
+    /**
+     * Constructor รับ Context และ Listener เพื่อเชื่อมต่อการทำงานกับ GamePlay8
+     */
     public HintDialog8(@NonNull Context context, OnHintUseListener listener) {
         super(context);
         this.listener = listener;
@@ -26,9 +36,10 @@ public class HintDialog8 extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // ซ่อน Title Bar
         setContentView(R.layout.activity_hint_dialog8);
 
+        // กำหนดให้พื้นหลังของ Dialog เป็นแบบโปร่งใส (Transparent) และปรับขนาดให้เหมาะสม
         if (getWindow() != null) {
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             getWindow().setLayout(
@@ -40,15 +51,17 @@ public class HintDialog8 extends Dialog {
         View btnUse = findViewById(R.id.btnUse5050);
         View btnClose = findViewById(R.id.btnCloseHint);
 
+        // เมื่อผู้ใช้กดปุ่ม "ใช้คำใบ้"
         if (btnUse != null) {
             btnUse.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onUseHint();
+                    listener.onUseHint(); // เรียกเมธอด useHint() ใน GamePlay8
                 }
-                dismiss();
+                dismiss(); // ปิดป๊อปอัป Dialog
             });
         }
 
+        // เมื่อผู้ใช้กดปุ่มปิด
         if (btnClose != null) {
             btnClose.setOnClickListener(v -> dismiss());
         }
