@@ -215,7 +215,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="12dp"
                 android:backgroundTint="#6B28D9"
-                android:text="ด่านถัดไป  ➔"
+                android:text="เลือกหมวดหมู่  ➔"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
