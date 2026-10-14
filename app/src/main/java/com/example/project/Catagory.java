@@ -11,7 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Catagory extends AppCompatActivity {
+public class  Catagory extends AppCompatActivity {
 
     private View btnC, btnSQL, btnJava;
     private TextView checkC, checkSQL, checkJava;

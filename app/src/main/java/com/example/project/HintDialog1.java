@@ -36,7 +36,7 @@ public class HintDialog1 extends Dialog {
                     WindowManager.LayoutParams.WRAP_CONTENT
             );
         }
-
+        // ผูกองค์ประกอบ View ต่างๆ จาก Layout XML
         View btnUse = findViewById(R.id.btnUseHint);
         View btnClose = findViewById(R.id.tvCloseDialog);
 

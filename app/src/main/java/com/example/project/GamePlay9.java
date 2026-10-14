@@ -1,7 +1,11 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -194,16 +198,42 @@ public class GamePlay9 extends AppCompatActivity {
      * อัปเดตเทมเพลตโค้ด SQL แสดงผลบน TextView หน้าจอ
      */
     private void updateCodeDisplay() {
+        String slot1 = userAnswers[0];
+        String slot2 = userAnswers[1];
+        String slot3 = userAnswers[2];
+
         String codeTemplate =
                 "-- ซ่อนเลขบัตรประชาชนให้แสดงเฉพาะ หลักท้าย\n" +
                         "ALTER TABLE customer_info\n\n" +
-                        "MODIFY COLUMN national_id " + userAnswers[0] + "\n\n" +
-                        "WITH (FUNCTION = " + userAnswers[1] + ");\n\n\n" +
+                        "MODIFY COLUMN national_id " + slot1 + "\n\n" +
+                        "WITH (FUNCTION = " + slot2 + ");\n\n\n" +
                         "-- กำหนดสิทธิ์ตาม Least Privilege ให้ดูเฉพาะข้อมูลที่จำเป็น\n" +
-                        userAnswers[2] + " SELECT ON customer_info TO 'app_read_role';";
+                        slot3 + " SELECT ON customer_info TO 'app_read_role';";
+
+        SpannableStringBuilder spannable = new SpannableStringBuilder(codeTemplate);
+        int slotColor = Color.parseColor("#FACC15"); // สีเหลืองสด
+
+        String[] slots = {slot1, slot2, slot3};
+        int searchStartIndex = 0;
+
+        for (String slotText : slots) {
+            int startPos = codeTemplate.indexOf(slotText, searchStartIndex);
+            if (startPos != -1) {
+                int endPos = startPos + slotText.length();
+
+                spannable.setSpan(
+                        new ForegroundColorSpan(slotColor),
+                        startPos,
+                        endPos,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+
+                searchStartIndex = endPos;
+            }
+        }
 
         if (tvQuestionCode != null) {
-            tvQuestionCode.setText(codeTemplate);
+            tvQuestionCode.setText(spannable);
         }
     }
 

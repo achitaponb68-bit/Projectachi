@@ -1,7 +1,11 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,8 +57,8 @@ public class GamePlay6 extends AppCompatActivity {
 
     private boolean isAllAnswersCorrect() {
         return "http://apache.org/xml/features/disallow-doctype-decl".equals(userAnswers[0]) &&
-               "false".equals(userAnswers[1]) &&
-               "false".equals(userAnswers[2]);
+                "false".equals(userAnswers[1]) &&
+                "false".equals(userAnswers[2]);
     }
 
     private void checkAndRecordAnswer() {
@@ -100,15 +104,21 @@ public class GamePlay6 extends AppCompatActivity {
             });
         }
 
-        if (btnOption1 != null) btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
-        if (btnOption2 != null) btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
-        if (btnOption3 != null) btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
-        if (btnOption4 != null) btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
-        if (btnOption5 != null) btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
-        if (btnOption6 != null) btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
+        if (btnOption1 != null)
+            btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
+        if (btnOption2 != null)
+            btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
+        if (btnOption3 != null)
+            btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
+        if (btnOption4 != null)
+            btnOption4.setOnClickListener(v -> selectOption(btnOption4.getText().toString()));
+        if (btnOption5 != null)
+            btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
+        if (btnOption6 != null)
+            btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
 
         if (tvQuestionCode != null) {
-            tvQuestionCode.setOnClickListener(v -> resetAnswers());
+            tvQuestionCode.setOnClickListener(v -> updateCodeDisplay());
         }
 
         if (btnCheck != null) {
@@ -159,19 +169,48 @@ public class GamePlay6 extends AppCompatActivity {
     }
 
     private void updateCodeDisplay() {
+        String slot1 = userAnswers[0];
+        String slot2 = userAnswers[1];
+        String slot3 = userAnswers[2];
+
         String codeTemplate =
                 "import javax.xml.parsers.DocumentBuilderFactory;\n\n" +
                         "public class SafeXmlParser {\n" +
                         "    public static void secureParser(DocumentBuilderFactory dbf) throws Exception {\n" +
                         "        // ป้องกัน XXE โดยปิดการทำงานที่ไม่ปลอดภัย\n\n" +
-                        "        dbf.setFeature( " + userAnswers[0] + " , true);\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-general-entities\", " + userAnswers[1] + " );\n\n" +
-                        "        dbf.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", " + userAnswers[2] + " );\n" +
+                        "        dbf.setFeature( " + slot1 + " , true);\n\n" +
+                        "        dbf.setFeature(\"http://xml.org/sax/features/external-general-entities\", " + slot2 + " );\n\n" +
+                        "        dbf.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", " + slot3 + " );\n" +
                         "    }\n" +
                         "}";
 
+        SpannableStringBuilder spannable = new SpannableStringBuilder(codeTemplate);
+
+        // กำหนดสีของช่องใส่คำตอบเป็นสีเหลืองสด (#FACC15)
+        int slotColor = Color.parseColor("#FACC15");
+
+        String[] slots = {slot1, slot2, slot3};
+        int searchStartIndex = 0;
+
+        for (String slotText : slots) {
+            int startPos = codeTemplate.indexOf(slotText, searchStartIndex);
+            if (startPos != -1) {
+                int endPos = startPos + slotText.length();
+
+                // เปลี่ยนสีเฉพาะช่วงข้อความที่เป็นช่องใส่คำตอบ
+                spannable.setSpan(
+                        new ForegroundColorSpan(slotColor),
+                        startPos,
+                        endPos,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+
+                searchStartIndex = endPos;
+            }
+        }
+
         if (tvQuestionCode != null) {
-            tvQuestionCode.setText(codeTemplate);
+            tvQuestionCode.setText(spannable);
         }
     }
 

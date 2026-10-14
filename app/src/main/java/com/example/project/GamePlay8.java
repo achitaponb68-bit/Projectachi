@@ -1,7 +1,11 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -194,18 +198,44 @@ public class GamePlay8 extends AppCompatActivity {
      * อัปเดตเทมเพลตโค้ด SQL แสดงผลบน TextView หน้าจอ
      */
     private void updateCodeDisplay() {
+        String slot1 = userAnswers[0];
+        String slot2 = userAnswers[1];
+        String slot3 = userAnswers[2];
+
         String codeTemplate =
                 "-- สร้างคำสั่งที่ปลอดภัยสำหรับการตรวจสอบการเข้าสู่ระบบ\n" +
                         "PREPARE login_stmt FROM\n\n" +
-                        "'SELECT role, username FROM customer WHERE email = " + userAnswers[0] + " AND password_hash = " + userAnswers[1] + "';\n\n\n" +
+                        "'SELECT role, username FROM customer WHERE email = " + slot1 + " AND password_hash = " + slot2 + "';\n\n\n" +
                         "-- รับค่าที่ได้จากผู้ใช้มาเก็บไว้ในตัวแปร\n" +
                         "SET @user_email = 'user@example.com';\n" +
                         "SET @user_pass = 'hashed_pass_value';\n\n\n" +
                         "-- เรียกใช้คำสั่งโดยส่งค่าตัวแปรเข้าไป\n" +
-                        "EXECUTE login_stmt USING " + userAnswers[2] + ";";
+                        "EXECUTE login_stmt USING " + slot3 + ";";
+
+        SpannableStringBuilder spannable = new SpannableStringBuilder(codeTemplate);
+        int slotColor = Color.parseColor("#FACC15"); // สีเหลืองสด
+
+        String[] slots = {slot1, slot2, slot3};
+        int searchStartIndex = 0;
+
+        for (String slotText : slots) {
+            int startPos = codeTemplate.indexOf(slotText, searchStartIndex);
+            if (startPos != -1) {
+                int endPos = startPos + slotText.length();
+
+                spannable.setSpan(
+                        new ForegroundColorSpan(slotColor),
+                        startPos,
+                        endPos,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+
+                searchStartIndex = endPos;
+            }
+        }
 
         if (tvQuestionCode != null) {
-            tvQuestionCode.setText(codeTemplate);
+            tvQuestionCode.setText(spannable);
         }
     }
 

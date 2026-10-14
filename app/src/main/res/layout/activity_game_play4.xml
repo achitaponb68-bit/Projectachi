@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="เติมคำสั่งเพื่อป้องกันปัญหา Timing Attack ในขั้นตอนการเปรียบเทียบ Signature/Hash โดยใช้ฟังก์ชันเปรียบเทียบเวลาคงที่ (Constant-time comparison)"
+                    android:text="เติมคำสั่งตรวจสอบความถูกต้องของ Token โดยต้องไม่เป็น null และมีความยาวตั้งแต่ 10 ตัวอักษรขึ้นไปเพื่อความปลอดภัย"
                     android:textColor="#94A3B8"
                     android:textSize="13sp" />
 
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:lineSpacingExtra="3dp"
-                    android:text="เติมคำสั่งเพื่อป้องกันปัญหา Timing Attack ในขั้นตอนการเปรียบเทียบ Signature/Hash โดยใช้ฟังก์ชันเปรียบเทียบเวลาคงที่ (Constant-time comparison)"
+                    android:text="เติมคำสั่งตรวจสอบความถูกต้องของ Token โดยต้องไม่เป็น null และมีความยาวตั้งแต่ 10 ตัวอักษรขึ้นไปเพื่อความปลอดภัย"
                     android:textColor="#E2E8F0"
                     android:textSize="13sp" />
 
@@ -218,9 +218,10 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="monospace"
                             android:lineSpacingExtra="4dp"
-                            android:text="import java.security.MessageDigest;\n\npublic class SignatureCheck {\n    public static boolean verify(byte[] expectedSig, byte[] inputSig) {\n        // ป้องกัน Side-Channel Timing Attack\n\n        boolean isValid = [ ช่องที่ 1 ].[ ช่องที่ 2 ](expectedSig, [ ช่องที่ 3 ]);\n\n        return isValid;\n    }\n}"
+                            android:text="public class TokenValidator {\n    public static boolean validateToken(String token) {\n        if ([ ช่องที่ 1 ] [ ช่องที่ 2 ] token.length() >= 32) {\n            return [ ช่องที่ 3 ];\n        }\n        return false;\n    }\n}"
                             android:textColor="#38BDF8"
                             android:textSize="12sp" />
+
                     </ScrollView>
                 </androidx.cardview.widget.CardView>
 
@@ -267,7 +268,7 @@
                             android:fontFamily="monospace"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="10dp"
-                            android:text="MessageDigest"
+                            android:text="token != null"
                             android:textAllCaps="false"
                             android:textColor="#E2E8F0"
                             android:textSize="11sp"
@@ -286,7 +287,7 @@
                             android:fontFamily="monospace"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="10dp"
-                            android:text="isEqual"
+                            android:text="true"
                             android:textAllCaps="false"
                             android:textColor="#E2E8F0"
                             android:textSize="11sp"
@@ -313,7 +314,7 @@
                             android:fontFamily="monospace"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="10dp"
-                            android:text="equals"
+                            android:text="&amp;&amp;"
                             android:textAllCaps="false"
                             android:textColor="#E2E8F0"
                             android:textSize="11sp"
@@ -332,7 +333,7 @@
                             android:fontFamily="monospace"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="10dp"
-                            android:text="inputSig"
+                            android:text="token == null"
                             android:textAllCaps="false"
                             android:textColor="#E2E8F0"
                             android:textSize="11sp"
@@ -358,7 +359,7 @@
                             android:fontFamily="monospace"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="10dp"
-                            android:text="Arrays"
+                            android:text="||"
                             android:textAllCaps="false"
                             android:textColor="#E2E8F0"
                             android:textSize="11sp"
@@ -377,7 +378,7 @@
                             android:fontFamily="monospace"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="10dp"
-                            android:text="expectedSig"
+                            android:text="false"
                             android:textAllCaps="false"
                             android:textColor="#E2E8F0"
                             android:textSize="11sp"

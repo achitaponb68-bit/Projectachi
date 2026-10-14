@@ -1,7 +1,11 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -192,15 +196,44 @@ public class GamePlay7 extends AppCompatActivity {
      * อัปเดตเทมเพลตโค้ด SQL แสดงผลบน TextView หน้าจอ
      */
     private void updateCodeDisplay() {
+        String slot1 = userAnswers[0];
+        String slot2 = userAnswers[1];
+        String slot3 = userAnswers[2];
+
         String codeTemplate =
                 "SELECT username, role\n" +
                         "FROM users\n" +
                         "WHERE username = 'john_doe'\n" +
-                        userAnswers[0] + "\n" +
-                        userAnswers[1] + " = " + userAnswers[2] + ";";
+                        slot1 + "\n" +
+                        slot2 + " = " + slot3 + ";";
+
+        SpannableStringBuilder spannable = new SpannableStringBuilder(codeTemplate);
+
+        // กำหนดสีของช่องใส่คำตอบเป็นสีส้มสด (#FB923C)
+        int slotColor = Color.parseColor("#FACC15");
+
+        String[] slots = {slot1, slot2, slot3};
+        int searchStartIndex = 0;
+
+        for (String slotText : slots) {
+            int startPos = codeTemplate.indexOf(slotText, searchStartIndex);
+            if (startPos != -1) {
+                int endPos = startPos + slotText.length();
+
+                // เปลี่ยนสีเฉพาะช่วงข้อความที่เป็นช่องใส่คำตอบ
+                spannable.setSpan(
+                        new ForegroundColorSpan(slotColor),
+                        startPos,
+                        endPos,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+
+                searchStartIndex = endPos;
+            }
+        }
 
         if (tvQuestionCode != null) {
-            tvQuestionCode.setText(codeTemplate);
+            tvQuestionCode.setText(spannable);
         }
     }
 

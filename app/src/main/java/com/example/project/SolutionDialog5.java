@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SolutionDialog5 extends AppCompatActivity {
 
-    private TextView tvCodeSolution;
     private Button btnBackMenu, btnNextQuestion;
 
     @Override
@@ -29,7 +28,6 @@ public class SolutionDialog5 extends AppCompatActivity {
             return insets;
         });
 
-        tvCodeSolution = findViewById(R.id.tvCodeSolution);
         btnBackMenu = findViewById(R.id.btnBackMenu);
         btnNextQuestion = findViewById(R.id.btnNextQuestion);
 

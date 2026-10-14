@@ -1,7 +1,11 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +22,7 @@ import java.util.List;
 public class GamePlay4 extends AppCompatActivity {
 
     private Button btnBackCategory;
-    private TextView tvLanguageBadge, tvStageNumber, tvQuestionNumber;
-    private TextView tvTitle, tvSubTitle, tvQuestionHeader, tvQuestionDescription, tvQuestionCode;
+    private TextView  tvQuestionCode;
     private Button btnOption1, btnOption2, btnOption3, btnOption4, btnOption5, btnOption6;
     private Button btnCheck, btnHint, btnNext;
 
@@ -47,13 +50,6 @@ public class GamePlay4 extends AppCompatActivity {
         String difficulty = getIntent().getStringExtra("difficulty");
 
         btnBackCategory = findViewById(R.id.btnBackCategory);
-        tvLanguageBadge = findViewById(R.id.tvLanguageBadge);
-        tvStageNumber = findViewById(R.id.tvStageNumber);
-        tvQuestionNumber = findViewById(R.id.tvQuestionNumber);
-        tvTitle = findViewById(R.id.tvTitle);
-        tvSubTitle = findViewById(R.id.tvSubTitle);
-        tvQuestionHeader = findViewById(R.id.tvQuestionHeader);
-        tvQuestionDescription = findViewById(R.id.tvQuestionDescription);
         tvQuestionCode = findViewById(R.id.tvQuestionCode);
 
         btnOption1 = findViewById(R.id.btnOption1);
@@ -120,9 +116,9 @@ public class GamePlay4 extends AppCompatActivity {
     }
 
     private boolean isAllAnswersCorrect() {
-        return "MessageDigest".equals(userAnswers[0]) &&
-               "isEqual".equals(userAnswers[1]) &&
-               "inputSig".equals(userAnswers[2]);
+        return "token != null".equals(userAnswers[0]) &&
+                "&&".equals(userAnswers[1]) &&
+                "true".equals(userAnswers[2]);
     }
 
     private void checkAndRecordAnswer() {
@@ -167,7 +163,7 @@ public class GamePlay4 extends AppCompatActivity {
         if (btnOption6 != null) btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
 
         if (tvQuestionCode != null) {
-            tvQuestionCode.setOnClickListener(v -> resetAnswers());
+            tvQuestionCode.setOnClickListener(v -> updateCodeDisplay());
         }
     }
 
@@ -177,6 +173,9 @@ public class GamePlay4 extends AppCompatActivity {
         updateCodeDisplay();
     }
 
+    /**
+     * รีเซ็ตคำตอบทุกช่องกลับเป็นข้อความ Placeholder เริ่มต้น
+     */
     private void resetAnswers() {
         userAnswers[0] = "[ ช่องที่ 1 ]";
         userAnswers[1] = "[ ช่องที่ 2 ]";
@@ -186,18 +185,49 @@ public class GamePlay4 extends AppCompatActivity {
     }
 
     private void updateCodeDisplay() {
+        String slot1 = userAnswers[0];
+        String slot2 = userAnswers[1];
+        String slot3 = userAnswers[2];
+
         String codeTemplate =
-                "import java.security.MessageDigest;\n\n" +
-                "public class SignatureCheck {\n" +
-                "    public static boolean verify(byte[] expectedSig, byte[] inputSig) {\n" +
-                "        // ป้องกัน Side-Channel Timing Attack\n\n" +
-                "        boolean isValid = " + userAnswers[0] + "." + userAnswers[1] + "(expectedSig, " + userAnswers[2] + ");\n\n" +
-                "        return isValid;\n" +
-                "    }\n" +
-                "}";
+                "public class TokenValidator {\n" +
+                        "    public static boolean validateToken(String token) {\n" +
+                        "        if (" + slot1 + " " + slot2 + " token.length() >= 32) {\n" +
+                        "            return " + slot3 + ";\n" +
+                        "        }\n" +
+                        "        return false;\n" +
+                        "    }\n" +
+                        "}";
+
+        // สร้าง SpannableStringBuilder เพื่อจัดการสีเฉพาะจุดในข้อความ
+        SpannableStringBuilder spannable = new SpannableStringBuilder(codeTemplate);
+
+        // กำหนดสีของช่องใส่คำตอบให้ตัดกับโจทย์ (โจทย์เป็นสีฟ้า #38BDF8)
+        // แนะนำ: สีเหลืองสด #FACC15 หรือ สีส้มสด #FB923C จะโดดเด่นมาก
+        int slotColor = Color.parseColor("#FACC15");; // สีเหลืองสด
+
+        String[] slots = {slot1, slot2, slot3};
+        int searchStartIndex = 0;
+
+        for (String slotText : slots) {
+            int startPos = codeTemplate.indexOf(slotText, searchStartIndex);
+            if (startPos != -1) {
+                int endPos = startPos + slotText.length();
+
+                // เปลี่ยนสีเฉพาะช่วงข้อความที่เป็นช่องใส่คำตอบ
+                spannable.setSpan(
+                        new ForegroundColorSpan(slotColor),
+                        startPos,
+                        endPos,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+
+                searchStartIndex = endPos;
+            }
+        }
 
         if (tvQuestionCode != null) {
-            tvQuestionCode.setText(codeTemplate);
+            tvQuestionCode.setText(spannable);
         }
     }
 }

@@ -10,7 +10,7 @@ public class SolutionDialog6 extends AppCompatActivity {
 
     private Button btnBackCategory;
     private Button btnDone;
-    private TextView tvSolutionCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,6 @@ public class SolutionDialog6 extends AppCompatActivity {
     private void initViews() {
         btnBackCategory = findViewById(R.id.btnBackCategory);
         btnDone = findViewById(R.id.btnDone);
-        tvSolutionCode = findViewById(R.id.tvSolutionCode);
     }
 
     private void setupListeners() {
