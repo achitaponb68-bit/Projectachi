@@ -56,13 +56,13 @@ public class Difficulty_SQL extends AppCompatActivity {
         btnHard.setOnClickListener(v -> selectDifficulty("Hard"));
 
         btnStartGame.setOnClickListener(v -> {
+            GameProgressManager.resetCategoryProgress(Difficulty_SQL.this, "SQL");
             Intent intent;
             if ("Medium".equals(selectedDifficulty)) {
                 intent = new Intent(Difficulty_SQL.this, GamePlay8.class);
             } else if ("Hard".equals(selectedDifficulty)) {
                 intent = new Intent(Difficulty_SQL.this, GamePlay9.class);
             } else {
-                GameProgressManager.resetCategoryHints(Difficulty_SQL.this, "SQL");
                 intent = new Intent(Difficulty_SQL.this, GamePlay7.class);
             }
             intent.putExtra("LANGUAGE", "SQL");

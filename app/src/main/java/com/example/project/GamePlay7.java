@@ -5,7 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,19 +28,16 @@ public class GamePlay7 extends AppCompatActivity {
     // ===== ส่วนประกอบ UI (Views) =====
     private Button btnBackCategory;
     private TextView tvQuestionCode;
+    private Button btnSlot1, btnSlot2, btnSlot3;
     private Button btnOption1, btnOption2, btnOption3, btnOption4, btnOption5, btnOption6;
     private Button btnCheck, btnHint, btnNext;
 
     // ===== สถานะคำตอบและการเลือก (State Variables) =====
-    // ดัชนีระบุตำแหน่งช่องที่กำลังเลือกเติม (0, 1 หรือ 2)
     private int selectedSlotIndex = 0;
-    // อาร์เรย์เก็บคำตอบของผู้ใช้ในแต่ละช่อง (เริ่มต้นด้วยข้อความ Placeholder)
     private final String[] userAnswers = {"[ ช่องที่ 1 ]", "[ ช่องที่ 2 ]", "[ ช่องที่ 3 ]"};
 
     // ===== ระบบคำใบ้ (Hint System) =====
-    // ตัวนับจำนวนคำใบ้ที่ใช้ไปแล้ว (ใช้ได้สูงสุด 3 ครั้ง)
     private int hintCount = 0;
-    // รายการปุ่มตัวเลือกที่เป็นคำตอบผิด สำหรับนำมาปิดการใช้งานเมื่อกดใช้คำใบ้
     private final List<Button> wrongOptions = new ArrayList<>();
 
     public GamePlay7() {
@@ -47,22 +48,21 @@ public class GamePlay7 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play7);
 
-        // รีเซ็ตประวัติการใช้คำใบ้ของหมวดหมู่ SQL เมื่อเริ่มด่านแรกของหมวด
         GameProgressManager.resetCategoryHints(this, "SQL");
 
-        // เริ่มต้นการทำงานของ View, ปุ่มตัวเลือกผิด, Listener และการแสดงผลโค้ด
         initViews();
         initWrongOptions();
         setupListeners();
         updateCodeDisplay();
     }
 
-    /**
-     * ค้นหาและเชื่อมโยง View จากไฟล์ XML เข้ากับตัวแปรในคลาส
-     */
     private void initViews() {
         btnBackCategory = findViewById(R.id.btnBackCategory);
         tvQuestionCode = findViewById(R.id.tvQuestionCode);
+
+        btnSlot1 = findViewById(R.id.btnSlot1);
+        btnSlot2 = findViewById(R.id.btnSlot2);
+        btnSlot3 = findViewById(R.id.btnSlot3);
 
         btnOption1 = findViewById(R.id.btnOption1);
         btnOption2 = findViewById(R.id.btnOption2);
@@ -76,19 +76,17 @@ public class GamePlay7 extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
     }
 
-    /**
-     * ตรวจสอบว่าคำตอบในอาร์เรย์ userAnswers ทั้ง 3 ช่อง ตรงกับเฉลยของด่านที่ 7 หรือไม่
-     * @return true หากตอบถูกต้องทั้ง 3 ช่อง, false หากยังมีช่องที่ผิด
-     */
-    private boolean isAllAnswersCorrect() {
-        return "AND".equals(userAnswers[0]) &&
-               "status".equals(userAnswers[1]) &&
-               "'active'".equals(userAnswers[2]);
+    private boolean isSlotCorrect(int index) {
+        if (index == 0) return "AND".equals(userAnswers[0]);
+        if (index == 1) return "status".equals(userAnswers[1]);
+        if (index == 2) return "'active'".equals(userAnswers[2]);
+        return false;
     }
 
-    /**
-     * ตรวจสอบคำตอบและบันทึกความคืบหน้าการผ่านด่านลงในระบบ
-     */
+    private boolean isAllAnswersCorrect() {
+        return isSlotCorrect(0) && isSlotCorrect(1) && isSlotCorrect(2);
+    }
+
     private void checkAndRecordAnswer() {
         if (isAllAnswersCorrect()) {
             GameProgressManager.markStageCompleted(this, 7);
@@ -98,9 +96,6 @@ public class GamePlay7 extends AppCompatActivity {
         }
     }
 
-    /**
-     * กำหนดปุ่มตัวเลือกที่เป็นคำตอบผิดลงใน wrongOptions สำหรับระบบคำใบ้
-     */
     private void initWrongOptions() {
         wrongOptions.clear();
         wrongOptions.add(btnOption4);
@@ -108,16 +103,12 @@ public class GamePlay7 extends AppCompatActivity {
         wrongOptions.add(btnOption6);
     }
 
-    /**
-     * ประมวลผลการใช้คำใบ้: ดึงปุ่มผิดออก 1 ปุ่ม, ปิดการใช้งานปุ่ม, จางปุ่มลง และบันทึกประวัติคำใบ้
-     */
     private void useHint() {
         if (hintCount >= 3 || wrongOptions.isEmpty()) {
             Toast.makeText(this, "ใช้คำใบ้ครบ 3 ครั้งแล้ว (เหลือเฉพาะคำตอบที่ถูกต้อง)", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // ดึงปุ่มผิดตัวแรกออกจากลิสต์แล้วสั่งปิดการใช้งาน
         Button btnToRemove = wrongOptions.remove(0);
         if (btnToRemove != null) {
             btnToRemove.setEnabled(false);
@@ -129,11 +120,7 @@ public class GamePlay7 extends AppCompatActivity {
         Toast.makeText(this, "ตัดตัวเลือกที่ผิดออกแล้ว 1 ข้อ (ใช้คำใบ้ไป " + hintCount + "/3)", Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * ตั้งค่า Event Listener ให้กับปุ่มต่างๆ ในหน้าจอ
-     */
     private void setupListeners() {
-        // ปุ่มย้อนกลับไปหน้าเลือกหมวดหมู่
         if (btnBackCategory != null) {
             btnBackCategory.setOnClickListener(v -> {
                 Intent intent = new Intent(GamePlay7.this, Catagory.class);
@@ -142,7 +129,18 @@ public class GamePlay7 extends AppCompatActivity {
             });
         }
 
-        // ปุ่มตัวเลือกคำตอบทั้ง 6 ปุ่ม
+        androidx.cardview.widget.CardView cardQuestion = findViewById(R.id.cardQuestion);
+        if (cardQuestion != null) {
+            cardQuestion.setOnClickListener(v -> resetAnswers());
+        }
+        if (tvQuestionCode != null) {
+            tvQuestionCode.setOnClickListener(v -> resetAnswers());
+        }
+
+        if (btnSlot1 != null) btnSlot1.setOnClickListener(v -> setSlotIndex(0));
+        if (btnSlot2 != null) btnSlot2.setOnClickListener(v -> setSlotIndex(1));
+        if (btnSlot3 != null) btnSlot3.setOnClickListener(v -> setSlotIndex(2));
+
         if (btnOption1 != null) btnOption1.setOnClickListener(v -> selectOption(btnOption1.getText().toString()));
         if (btnOption2 != null) btnOption2.setOnClickListener(v -> selectOption(btnOption2.getText().toString()));
         if (btnOption3 != null) btnOption3.setOnClickListener(v -> selectOption(btnOption3.getText().toString()));
@@ -150,52 +148,77 @@ public class GamePlay7 extends AppCompatActivity {
         if (btnOption5 != null) btnOption5.setOnClickListener(v -> selectOption(btnOption5.getText().toString()));
         if (btnOption6 != null) btnOption6.setOnClickListener(v -> selectOption(btnOption6.getText().toString()));
 
-        // แตะที่ตัวข้อความโค้ด เพื่อทำการล้างคำตอบ (Reset)
-        if (tvQuestionCode != null) {
-            tvQuestionCode.setOnClickListener(v -> resetAnswers());
-        }
-
-        // ปุ่มตรวจคำตอบ
         if (btnCheck != null) {
             btnCheck.setOnClickListener(v -> checkAnswers());
         }
 
-        // ปุ่มขอคำใบ้
         if (btnHint != null) {
             btnHint.setOnClickListener(v -> showHintDialog());
         }
 
-        // ปุ่มไปยังข้อถัดไป
         if (btnNext != null) {
             btnNext.setOnClickListener(v -> goToNextQuestion());
         }
     }
 
-    /**
-     * ใส่ค่าข้อความที่เลือกลงในอาร์เรย์คำตอบ และเลื่อนตำแหน่งช่องถัดไป
-     * @param selectedValue ข้อความบนปุ่มตัวเลือกที่ผู้ใช้กด
-     */
+    private void setSlotIndex(int index) {
+        selectedSlotIndex = index;
+        updateCodeDisplay();
+    }
+
     private void selectOption(String selectedValue) {
         userAnswers[selectedSlotIndex] = selectedValue;
-        selectedSlotIndex = (selectedSlotIndex + 1) % 3; // วนลูป 0 -> 1 -> 2 -> 0
+        selectedSlotIndex = (selectedSlotIndex + 1) % 3;
         updateCodeDisplay();
     }
 
-    /**
-     * รีเซ็ตคำตอบทุกช่องกลับเป็นข้อความ Placeholder เริ่มต้น
-     */
     private void resetAnswers() {
-        userAnswers[0] = "[ ช่องที่ 1 ]";
-        userAnswers[1] = "[ ช่องที่ 2 ]";
-        userAnswers[2] = "[ ช่องที่ 3 ]";
-        selectedSlotIndex = 0;
+        boolean anyReset = false;
+        for (int i = 0; i < 3; i++) {
+            if (!isSlotCorrect(i)) {
+                userAnswers[i] = "[ ช่องที่ " + (i + 1) + " ]";
+                anyReset = true;
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (!isSlotCorrect(i)) {
+                selectedSlotIndex = i;
+                break;
+            }
+        }
         updateCodeDisplay();
+        if (anyReset) {
+            Toast.makeText(this, "รีเซ็ตเฉพาะช่องที่ตอบผิดแล้ว (ล็อกช่องที่ตอบถูกไว้)", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "ทุกช่องตอบถูกแล้ว!", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    /**
-     * อัปเดตเทมเพลตโค้ด SQL แสดงผลบน TextView หน้าจอ
-     */
+    private void updateSlotButtonsUI() {
+        Button[] slotButtons = {btnSlot1, btnSlot2, btnSlot3};
+        for (int i = 0; i < slotButtons.length; i++) {
+            Button btn = slotButtons[i];
+            if (btn != null) {
+                if (isSlotCorrect(i)) {
+                    btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#15803D")));
+                    btn.setTextColor(Color.parseColor("#FFFFFF"));
+                    btn.setText("✓ ช่องที่ " + (i + 1));
+                } else if (i == selectedSlotIndex) {
+                    btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#38BDF8")));
+                    btn.setTextColor(Color.parseColor("#0F172A"));
+                    btn.setText("ช่องที่ " + (i + 1));
+                } else {
+                    btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#0F172A")));
+                    btn.setTextColor(Color.parseColor("#E2E8F0"));
+                    btn.setText("ช่องที่ " + (i + 1));
+                }
+            }
+        }
+    }
+
     private void updateCodeDisplay() {
+        updateSlotButtonsUI();
+
         String slot1 = userAnswers[0];
         String slot2 = userAnswers[1];
         String slot3 = userAnswers[2];
@@ -209,24 +232,58 @@ public class GamePlay7 extends AppCompatActivity {
 
         SpannableStringBuilder spannable = new SpannableStringBuilder(codeTemplate);
 
-        // กำหนดสีของช่องใส่คำตอบเป็นสีส้มสด (#FB923C)
-        int slotColor = Color.parseColor("#FACC15");
+        if (tvQuestionCode != null) {
+            tvQuestionCode.setMovementMethod(LinkMovementMethod.getInstance());
+        }
 
         String[] slots = {slot1, slot2, slot3};
         int searchStartIndex = 0;
 
-        for (String slotText : slots) {
+        for (int i = 0; i < slots.length; i++) {
+            final int slotIdx = i;
+            String slotText = slots[i];
             int startPos = codeTemplate.indexOf(slotText, searchStartIndex);
             if (startPos != -1) {
                 int endPos = startPos + slotText.length();
 
-                // เปลี่ยนสีเฉพาะช่วงข้อความที่เป็นช่องใส่คำตอบ
-                spannable.setSpan(
-                        new ForegroundColorSpan(slotColor),
-                        startPos,
-                        endPos,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                );
+                spannable.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        setSlotIndex(slotIdx);
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                        if (isSlotCorrect(slotIdx)) {
+                            ds.setColor(Color.parseColor("#4ADE80"));
+                            ds.setFakeBoldText(true);
+                        } else if (slotIdx == selectedSlotIndex) {
+                            ds.setColor(Color.parseColor("#FACC15"));
+                            ds.setFakeBoldText(true);
+                        } else {
+                            ds.setColor(Color.parseColor("#38BDF8"));
+                            ds.setFakeBoldText(false);
+                        }
+                    }
+                }, startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                if (isSlotCorrect(i)) {
+                    spannable.setSpan(
+                            new BackgroundColorSpan(Color.parseColor("#3322C55E")),
+                            startPos,
+                            endPos,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+                } else if (i == selectedSlotIndex) {
+                    spannable.setSpan(
+                            new BackgroundColorSpan(Color.parseColor("#33FACC15")),
+                            startPos,
+                            endPos,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+                }
 
                 searchStartIndex = endPos;
             }
@@ -237,22 +294,16 @@ public class GamePlay7 extends AppCompatActivity {
         }
     }
 
-    /**
-     * ตรวจคำตอบ หากถูกต้องจะเปิดหน้าต่างเฉลย SolutionDialog7
-     */
     private void checkAnswers() {
         if (isAllAnswersCorrect()) {
             checkAndRecordAnswer();
             Intent intent = new Intent(GamePlay7.this, SolutionDialog7.class);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "คำตอบยังไม่ถูกต้อง ลองใหม่อีกครั้ง", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ต้องตอบถูกครบทั้ง 3 ช่องจึงจะดูเฉลยได้", Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * สร้างและแสดงป๊อปอัปคำใบ้ HintDialog7
-     */
     private void showHintDialog() {
         if (hintCount >= 3) {
             Toast.makeText(this, "ใช้คำใบ้ครบ 3 ครั้งแล้ว (เหลือเฉพาะคำตอบที่ถูกต้อง)", Toast.LENGTH_SHORT).show();
@@ -262,17 +313,15 @@ public class GamePlay7 extends AppCompatActivity {
         hintDialog.show();
     }
 
-    /**
-     * ตรวจความถูกต้องและนำทางไปยังด่านถัดไป (GamePlay8)
-     */
     private void goToNextQuestion() {
         if (isAllAnswersCorrect()) {
             GameProgressManager.markStageCompleted(GamePlay7.this, 7);
-            Intent intent = new Intent(GamePlay7.this, GamePlay8.class);
-            startActivity(intent);
-            finish();
+            Toast.makeText(this, "ตอบถูกต้องครบทั้ง 3 ช่อง! บันทึกด่านสำเร็จแล้ว 🎉", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "คำตอบยังไม่ถูกต้อง กรุณาตอบให้ถูกต้องก่อนไปข้อถัดไป", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ข้ามไปยังข้อถัดไป (ยังไม่บันทึกผ่านด่าน เนื่องจากยังตอบไม่ถูกครบ 3 ช่อง)", Toast.LENGTH_SHORT).show();
         }
+        Intent intent = new Intent(GamePlay7.this, GamePlay8.class);
+        startActivity(intent);
+        finish();
     }
 }

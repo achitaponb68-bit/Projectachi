@@ -55,7 +55,7 @@ public class GameProgressManager {
         prefs.edit().putInt("stage_" + stageNumber + "_hints", hintCount).apply();
     }
 
-    public static void resetCategoryHints(Context context, String category) {
+    public static void resetCategoryProgress(Context context, String category) {
         if (context == null) return;
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         int start;
@@ -73,8 +73,13 @@ public class GameProgressManager {
         SharedPreferences.Editor editor = prefs.edit();
         for (int i = start; i <= end; i++) {
             editor.putInt("stage_" + i + "_hints", 0);
+            editor.putBoolean("stage_" + i + "_completed", false);
         }
         editor.apply();
+    }
+
+    public static void resetCategoryHints(Context context, String category) {
+        resetCategoryProgress(context, category);
     }
 
     public static int getCategoryHintsCount(Context context, String category) {
